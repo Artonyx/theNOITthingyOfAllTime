@@ -1,0 +1,4 @@
+repository "theNOITthingyOfAllTime 2025-07-24_13-04-14/theNOITthingyOfAllTime@7972482867524@cloud"
+  path "/"
+    br "/main"
+    co "/main"
