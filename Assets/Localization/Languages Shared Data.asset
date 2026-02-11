@@ -39,6 +39,22 @@ MonoBehaviour:
     m_Key: Exit
     m_Metadata:
       m_Items: []
+  - m_Id: 11397309876043776
+    m_Key: city
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11399166841225216
+    m_Key: nature
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11404122814054400
+    m_Key: warning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11404726693167104
+    m_Key: okay
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
