@@ -60,6 +60,10 @@ MonoBehaviour:
     m_Localized: Okay
     m_Metadata:
       m_Items: []
+  - m_Id: 11414503770980352
+    m_Localized: 'Pick a level:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -55,6 +55,10 @@ MonoBehaviour:
     m_Key: okay
     m_Metadata:
       m_Items: []
+  - m_Id: 11414503770980352
+    m_Key: pick a level
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
