@@ -59,6 +59,18 @@ MonoBehaviour:
     m_Key: pick a level
     m_Metadata:
       m_Items: []
+  - m_Id: 11814527773294592
+    m_Key: credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11820904394637312
+    m_Key: additional info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11829234638897152
+    m_Key: credits text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

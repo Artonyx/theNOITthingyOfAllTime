@@ -64,6 +64,33 @@ MonoBehaviour:
     m_Localized: 'Pick a level:'
     m_Metadata:
       m_Items: []
+  - m_Id: 11814527773294592
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11820904394637312
+    m_Localized: Additional info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11829234638897152
+    m_Localized: 'This game is created by two students from the School of mathematics
+      and science "Academician Nikola Obreshkov" in Burgas, Bulgaria - Anna-Maria
+      Dalakmanova from XI d class and Miroslav Kavrukov from XII d class.
+
+
+      Game
+      design, sprites and front-end by Anna-Maria
+
+      Idea, level design and back-end
+      by Miroslav
+
+
+      Other resources:
+
+      Unity documentation, Unity forums,
+      Stack Overflow, YouTube'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 2619144fb82ab36d6841c72b09d7f2a8
+guid: 973fa81a2773f154a856f0d9397700b9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3311725092957659770
-    second: firefighter_level_menu_0
+      213: 8803357398687950288
+    second: firefighter_idk_0
+  - first:
+      213: -5574973535821672814
+    second: firefighter_idk_1
+  - first:
+      213: 3716592258280350237
+    second: firefighter_idk_2
+  - first:
+      213: -4720040897005701741
+    second: firefighter_idk_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: firefighter_level_menu_0
+      name: firefighter_idk_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 120
-        height: 50
+        x: 231
+        y: 89
+        width: 9
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a722d7ffc6c95fd20800000000000000
-      internalID: 3311725092957659770
+      spriteID: 0d52a9379eecb2a70800000000000000
+      internalID: 8803357398687950288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firefighter_idk_1
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 73
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29e452d4b17b1a2b0800000000000000
+      internalID: -5574973535821672814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firefighter_idk_2
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 77
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1264c1b7fcf39330800000000000000
+      internalID: 3716592258280350237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firefighter_idk_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 240
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 395b8a0efcb0f7eb0800000000000000
+      internalID: -4720040897005701741
       vertices: []
       indices: 
       edges: []
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      firefighter_level_menu_0: 3311725092957659770
+      firefighter_idk_0: 8803357398687950288
+      firefighter_idk_1: -5574973535821672814
+      firefighter_idk_2: 3716592258280350237
+      firefighter_idk_3: -4720040897005701741
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
