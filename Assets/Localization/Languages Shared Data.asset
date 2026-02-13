@@ -71,6 +71,26 @@ MonoBehaviour:
     m_Key: credits text
     m_Metadata:
       m_Items: []
+  - m_Id: 12132808613855232
+    m_Key: pause text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12133885467852800
+    m_Key: restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12134618007240704
+    m_Key: resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12135025899110400
+    m_Key: quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12147568252190720
+    m_Key: Resume
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

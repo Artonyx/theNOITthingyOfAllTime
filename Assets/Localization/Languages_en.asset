@@ -91,6 +91,26 @@ MonoBehaviour:
       Stack Overflow, YouTube'
     m_Metadata:
       m_Items: []
+  - m_Id: 12132808613855232
+    m_Localized: Your game is paused!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12133885467852800
+    m_Localized: Restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12134618007240704
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12135025899110400
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12147568252190720
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
