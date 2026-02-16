@@ -111,6 +111,42 @@ MonoBehaviour:
     m_Localized: Resume
     m_Metadata:
       m_Items: []
+  - m_Id: 13222818226274304
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237038363869184
+    m_Localized: Would you like an introduction to the game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237341918232576
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237448961064960
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237650136662016
+    m_Localized: Good enough. Have fun :)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237978571636736
+    m_Localized: Very well. Welcome to Fire-extinguisher! This is a strategic game
+      where you take the role of a dispatcher for fire extinguishing teams.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238398094311424
+    m_Localized: The controls are simple; you choose and click on a fire engine and
+      assign it a task whenever there is an active fire in the city. You have to
+      do this for a day within the city but it will take you around 5 minutes of
+      your time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239190616440832
+    m_Localized: This should be it! Have fun :)
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

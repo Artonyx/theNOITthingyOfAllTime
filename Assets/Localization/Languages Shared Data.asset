@@ -91,6 +91,42 @@ MonoBehaviour:
     m_Key: Resume
     m_Metadata:
       m_Items: []
+  - m_Id: 13222276632576000
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13222818226274304
+    m_Key: play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237038363869184
+    m_Key: tutorial0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237341918232576
+    m_Key: yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237448961064960
+    m_Key: no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237650136662016
+    m_Key: tutorial01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13237978571636736
+    m_Key: tutorial1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13238398094311424
+    m_Key: tutorial2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13239190616440832
+    m_Key: tutorial3
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
