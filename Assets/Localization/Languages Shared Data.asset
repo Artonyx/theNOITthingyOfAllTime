@@ -127,6 +127,22 @@ MonoBehaviour:
     m_Key: tutorial3
     m_Metadata:
       m_Items: []
+  - m_Id: 13919542129360896
+    m_Key: you won
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13920161850359808
+    m_Key: congratulatioms
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13921556406108160
+    m_Key: sad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13921586093391872
+    m_Key: you lost
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

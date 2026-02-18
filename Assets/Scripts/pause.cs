@@ -10,10 +10,27 @@ public class pause : MonoBehaviour
     public static bool gameIsFrozen = false;
 
     public GameObject pauseMenu;
+    
+    public GameObject tutorialScreen;
+    public GameObject winScreen;
+    public GameObject lossScreen;
+    public static bool cannotChangeState = false;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (tutorialScreen.activeSelf || winScreen.activeSelf || lossScreen.activeSelf)
+        {
+            Time.timeScale = 0f;
+            cannotChangeState = true;
+        }
+
+        else
+        {
+            Time.timeScale = 1f;
+            cannotChangeState = false;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape) && !cannotChangeState)
         {
             if (gameIsPaused)
             {
@@ -25,7 +42,7 @@ public class pause : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !cannotChangeState)
         {
             FreezeTime();
         }
@@ -64,13 +81,13 @@ public class pause : MonoBehaviour
 
     void FreezeTime()
     {
-        if (gameIsFrozen && !gameIsPaused)
+        if (gameIsFrozen && !gameIsPaused && !cannotChangeState)
         {
             Time.timeScale = 1f;
             gameIsFrozen = false;
             Debug.Log("Unfrozen!");
         }
-        else if (!gameIsFrozen)
+        else if (!gameIsFrozen && !cannotChangeState)
         {
             Time.timeScale = 0f;
             gameIsFrozen = true;

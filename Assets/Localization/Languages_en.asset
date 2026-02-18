@@ -147,6 +147,23 @@ MonoBehaviour:
     m_Localized: This should be it! Have fun :)
     m_Metadata:
       m_Items: []
+  - m_Id: 13919542129360896
+    m_Localized: You won!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13920161850359808
+    m_Localized: Congratulations! You passed the tutorial level. For now this is
+      it. Thank you for playing!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13921586093391872
+    m_Localized: You lost :(
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13921556406108160
+    m_Localized: But don't give up just yet! Would you like to try again?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
