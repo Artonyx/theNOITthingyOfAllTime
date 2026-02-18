@@ -635,7 +635,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.6
+  m_PixelsPerUnitMultiplier: 0.2
 --- !u!222 &237119817
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2775,7 +2775,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.6
+  m_PixelsPerUnitMultiplier: 0.2
 --- !u!222 &866945539
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3679,7 +3679,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level0
+          m_StringArgument: level1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1146370922
@@ -4214,7 +4214,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.6
+  m_PixelsPerUnitMultiplier: 0.2
 --- !u!222 &1450966342
 CanvasRenderer:
   m_ObjectHideFlags: 0
