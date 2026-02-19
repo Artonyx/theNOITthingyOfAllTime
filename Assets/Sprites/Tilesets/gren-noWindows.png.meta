@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 0d37f162e374a766a86bfac8d5c9ef56
+guid: ad520b852810e5f4b9f52655335bca82
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7440776416538661482
-    second: window-doors_0
-  - first:
-      213: 7352390330191655484
-    second: window-doors_1
-  - first:
-      213: 5490640203498294970
-    second: window-doors_2
+      213: -2385213773709826441
+    second: gren-noWindows_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,7 +100,139 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: window-doors_0
+      name: gren-noWindows_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77628a0d5b406eed0800000000000000
+      internalID: -2385213773709826441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gren-noWindows_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 269d436ea3b6cbf4bb4782d34e18b4f7
+      internalID: -1619787941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gren-noWindows_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69effb023db3ab94b800d59c49813250
+      internalID: 336051950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gren-noWindows_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d70b5c8bd84fcbe4d8ef1b65dbbe21f0
+      internalID: -1201538296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gren-noWindows_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9121412d8c88362409ea8a2743dfe1e0
+      internalID: -254417455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gren-noWindows_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 448e8cb3710b1e64aaf3634aeeeeab64
+      internalID: -2101451737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gren-noWindows_6
       rect:
         serializedVersion: 2
         x: 0
@@ -119,16 +245,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a6214e85ab2f24760800000000000000
-      internalID: 7440776416538661482
+      spriteID: 725f517039b216c40ab609664e133393
+      internalID: 1145427628
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_1
+      name: gren-noWindows_7
       rect:
         serializedVersion: 2
         x: 32
@@ -141,16 +267,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c323719fc00f80660800000000000000
-      internalID: 7352390330191655484
+      spriteID: 18b5669f8d1e78947ab51d72be38de09
+      internalID: -584620139
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_2
+      name: gren-noWindows_8
       rect:
         serializedVersion: 2
         x: 64
@@ -163,10 +289,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: abe8ef6ac2ca23c40800000000000000
-      internalID: 5490640203498294970
+      spriteID: 7b48813081a82984b8e1ba29dce03225
+      internalID: 280072001
       vertices: []
       indices: 
       edges: []
@@ -175,7 +301,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c4c0d5b39034c4bd296a14212db44f4c
+    spriteID: b4f71d218c0c76448a94deca065d906a
     internalID: 0
     vertices: []
     indices: 
@@ -187,9 +313,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      window-doors_0: 7440776416538661482
-      window-doors_1: 7352390330191655484
-      window-doors_2: 5490640203498294970
+      gren-noWindows_0: -2385213773709826441
+      gren-noWindows_1: -1619787941
+      gren-noWindows_2: 336051950
+      gren-noWindows_3: -1201538296
+      gren-noWindows_4: -254417455
+      gren-noWindows_5: -2101451737
+      gren-noWindows_6: 1145427628
+      gren-noWindows_7: -584620139
+      gren-noWindows_8: 280072001
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

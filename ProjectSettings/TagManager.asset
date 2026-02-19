@@ -44,8 +44,14 @@ TagManager:
   - name: Ground
     uniqueID: 1888907943
     locked: 0
+  - name: Windows
+    uniqueID: 4229990321
+    locked: 0
   - name: Buildings
     uniqueID: 2079414249
+    locked: 0
+  - name: Trees
+    uniqueID: 2041975097
     locked: 0
   m_RenderingLayers:
   - Default

@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 0d37f162e374a766a86bfac8d5c9ef56
+guid: e39f0923f891e864eb8d0852ba6abf84
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7440776416538661482
-    second: window-doors_0
-  - first:
-      213: 7352390330191655484
-    second: window-doors_1
-  - first:
-      213: 5490640203498294970
-    second: window-doors_2
+      213: -2125483736547940975
+    second: yelou-noWindows_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,7 +100,139 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: window-doors_0
+      name: yelou-noWindows_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 195a03b8dc3c082e0800000000000000
+      internalID: -2125483736547940975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yelou-noWindows_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b93ae8f71e1e774e99c8e8ebb1c6f27
+      internalID: -1980590642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yelou-noWindows_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84c92b8d769133b4b85f1b858d731c48
+      internalID: 210460464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yelou-noWindows_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 172095a53b16edd4cbd932b808d374b4
+      internalID: 1845872258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yelou-noWindows_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18cd2928eda76724faa80714f3d96317
+      internalID: 1892641671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yelou-noWindows_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48c2457757087ae4694f9245a00b223a
+      internalID: 1714175637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yelou-noWindows_6
       rect:
         serializedVersion: 2
         x: 0
@@ -119,16 +245,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a6214e85ab2f24760800000000000000
-      internalID: 7440776416538661482
+      spriteID: 20686bbad70da564f9e32d15a5f4a742
+      internalID: -1665831282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_1
+      name: yelou-noWindows_7
       rect:
         serializedVersion: 2
         x: 32
@@ -141,16 +267,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c323719fc00f80660800000000000000
-      internalID: 7352390330191655484
+      spriteID: a1099a7015b9ee04fb1ffd05799373b1
+      internalID: 1673260719
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_2
+      name: yelou-noWindows_8
       rect:
         serializedVersion: 2
         x: 64
@@ -163,10 +289,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: abe8ef6ac2ca23c40800000000000000
-      internalID: 5490640203498294970
+      spriteID: 0ea83e20aed84a94aaf508ff317efb02
+      internalID: -1091203429
       vertices: []
       indices: 
       edges: []
@@ -175,7 +301,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c4c0d5b39034c4bd296a14212db44f4c
+    spriteID: f1b407c0919242440ac44ad422b38f40
     internalID: 0
     vertices: []
     indices: 
@@ -187,9 +313,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      window-doors_0: 7440776416538661482
-      window-doors_1: 7352390330191655484
-      window-doors_2: 5490640203498294970
+      yelou-noWindows_0: -2125483736547940975
+      yelou-noWindows_1: -1980590642
+      yelou-noWindows_2: 210460464
+      yelou-noWindows_3: 1845872258
+      yelou-noWindows_4: 1892641671
+      yelou-noWindows_5: 1714175637
+      yelou-noWindows_6: -1665831282
+      yelou-noWindows_7: 1673260719
+      yelou-noWindows_8: -1091203429
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

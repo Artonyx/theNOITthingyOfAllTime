@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 0d37f162e374a766a86bfac8d5c9ef56
+guid: 4d9c991c82dbe6f4bad96024c1e63cf8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7440776416538661482
-    second: window-doors_0
-  - first:
-      213: 7352390330191655484
-    second: window-doors_1
-  - first:
-      213: 5490640203498294970
-    second: window-doors_2
+      213: -1145443096768169791
+    second: blu-noWindows_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,7 +100,139 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: window-doors_0
+      name: ourple-noWindows_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3c430f7cfbcc5f48a6aec88556d1f88
+      internalID: 1559170198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ourple-noWindows_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f9d8b06d570cbd49a41ccadba81a7b8
+      internalID: 1393421700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ourple-noWindows_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8ea89f98158ec8458910867f5259cb4
+      internalID: -944208792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ourple-noWindows_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 242811b0f2689db45b726f0c06a4eb79
+      internalID: 948029844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ourple-noWindows_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8b7e7802dd440f4eb49815bf92a182b
+      internalID: -517029943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ourple-noWindows_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df635fddb6be25043bc38a2db0688281
+      internalID: 494369902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ourple-noWindows_6
       rect:
         serializedVersion: 2
         x: 0
@@ -119,16 +245,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a6214e85ab2f24760800000000000000
-      internalID: 7440776416538661482
+      spriteID: 55f74c04da3728340833a151f21122b8
+      internalID: 615274355
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_1
+      name: ourple-noWindows_7
       rect:
         serializedVersion: 2
         x: 32
@@ -141,16 +267,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c323719fc00f80660800000000000000
-      internalID: 7352390330191655484
+      spriteID: b0c7b3a0f3f848d4a9e9d5cb738f1fcb
+      internalID: 698037461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_2
+      name: ourple-noWindows_8
       rect:
         serializedVersion: 2
         x: 64
@@ -163,10 +289,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: abe8ef6ac2ca23c40800000000000000
-      internalID: 5490640203498294970
+      spriteID: c5505f1d148d63d4e91cae994e5fe3e3
+      internalID: 738178895
       vertices: []
       indices: 
       edges: []
@@ -175,7 +301,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c4c0d5b39034c4bd296a14212db44f4c
+    spriteID: d530350cae92ecf40b2c343120eae911
     internalID: 0
     vertices: []
     indices: 
@@ -187,9 +313,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      window-doors_0: 7440776416538661482
-      window-doors_1: 7352390330191655484
-      window-doors_2: 5490640203498294970
+      ourple-noWindows_0: 1559170198
+      ourple-noWindows_1: 1393421700
+      ourple-noWindows_2: -944208792
+      ourple-noWindows_3: 948029844
+      ourple-noWindows_4: -517029943
+      ourple-noWindows_5: 494369902
+      ourple-noWindows_6: 615274355
+      ourple-noWindows_7: 698037461
+      ourple-noWindows_8: 738178895
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

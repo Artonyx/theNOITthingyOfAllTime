@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 0d37f162e374a766a86bfac8d5c9ef56
+guid: 2216916d811aef040b82b942c2f646c5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7440776416538661482
-    second: window-doors_0
-  - first:
-      213: 7352390330191655484
-    second: window-doors_1
-  - first:
-      213: 5490640203498294970
-    second: window-doors_2
+      213: 8274236778276851177
+    second: realBlu-noWindows_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,7 +100,139 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: window-doors_0
+      name: blu-noWindows_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ccef4d0a03a71349950e4fc9eb55415
+      internalID: -1848297866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blu-noWindows_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70365dee209ae754480dc99698d7787d
+      internalID: -1874336764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blu-noWindows_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c82fb1ca44e30d4aac733fd90565483
+      internalID: 709836482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blu-noWindows_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b455690dd02d65a45ada599757d24868
+      internalID: 301578758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blu-noWindows_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b102222ed98cccd48aac619d88dcb6ad
+      internalID: -1395650110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blu-noWindows_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31c6cdef01714644c8118a2a0bf40c0b
+      internalID: -776796421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blu-noWindows_6
       rect:
         serializedVersion: 2
         x: 0
@@ -119,16 +245,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a6214e85ab2f24760800000000000000
-      internalID: 7440776416538661482
+      spriteID: 3d3332d45b3e0cd418274b139c3a18b3
+      internalID: -1649223146
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_1
+      name: blu-noWindows_7
       rect:
         serializedVersion: 2
         x: 32
@@ -141,16 +267,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c323719fc00f80660800000000000000
-      internalID: 7352390330191655484
+      spriteID: b706e70641d8f23489e01b381ff66d16
+      internalID: 1363295802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window-doors_2
+      name: blu-noWindows_8
       rect:
         serializedVersion: 2
         x: 64
@@ -163,10 +289,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: abe8ef6ac2ca23c40800000000000000
-      internalID: 5490640203498294970
+      spriteID: 5735196a29143c442a8e9f26f9dbe80f
+      internalID: -920653442
       vertices: []
       indices: 
       edges: []
@@ -175,7 +301,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c4c0d5b39034c4bd296a14212db44f4c
+    spriteID: f42b0d2920e1d5141aa1471529c32b16
     internalID: 0
     vertices: []
     indices: 
@@ -187,9 +313,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      window-doors_0: 7440776416538661482
-      window-doors_1: 7352390330191655484
-      window-doors_2: 5490640203498294970
+      blu-noWindows_0: -1848297866
+      blu-noWindows_1: -1874336764
+      blu-noWindows_2: 709836482
+      blu-noWindows_3: 301578758
+      blu-noWindows_4: -1395650110
+      blu-noWindows_5: -776796421
+      blu-noWindows_6: -1649223146
+      blu-noWindows_7: 1363295802
+      blu-noWindows_8: -920653442
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
