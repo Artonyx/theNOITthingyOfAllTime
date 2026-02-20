@@ -168,6 +168,22 @@ MonoBehaviour:
     m_Localized: Tutorial
     m_Metadata:
       m_Items: []
+  - m_Id: 14687727539617792
+    m_Localized: Are you sure you want to quit the game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14688864175030272
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14688980210450432
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14689500111208448
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

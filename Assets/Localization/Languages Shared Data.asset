@@ -147,6 +147,22 @@ MonoBehaviour:
     m_Key: tutorial
     m_Metadata:
       m_Items: []
+  - m_Id: 14687727539617792
+    m_Key: are u sure
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14688864175030272
+    m_Key: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14688980210450432
+    m_Key: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14689500111208448
+    m_Key: settings
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

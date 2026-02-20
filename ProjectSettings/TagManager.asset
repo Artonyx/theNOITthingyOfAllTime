@@ -53,5 +53,8 @@ TagManager:
   - name: Trees
     uniqueID: 2041975097
     locked: 0
+  - name: Vehicles
+    uniqueID: 1693742623
+    locked: 0
   m_RenderingLayers:
   - Default
