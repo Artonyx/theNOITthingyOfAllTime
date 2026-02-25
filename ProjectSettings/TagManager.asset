@@ -15,7 +15,7 @@ TagManager:
   - Road
   - Human terrain
   - Non-walkable terrain
-  - 
+  - Fire
   - 
   - 
   - 
@@ -56,6 +56,9 @@ TagManager:
     locked: 0
   - name: Vehicles
     uniqueID: 1693742623
+    locked: 0
+  - name: Fire
+    uniqueID: 4182393673
     locked: 0
   m_RenderingLayers:
   - Default
