@@ -42975,6 +42975,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: maxSpreads
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: mediumToLargeTime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: smallToMediumTime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: spreadChanceLarge
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: spreadChanceMedium
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: spreadIntervalLarge
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972281841721951513, guid: b77fe5526d85b4a4fb357deb4b70a50f, type: 3}
+      propertyPath: spreadIntervalMedium
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
