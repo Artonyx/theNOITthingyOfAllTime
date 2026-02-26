@@ -201,13 +201,13 @@ MonoBehaviour:
   smallFireVisual: {fileID: 954529400005622186}
   mediumFireVisual: {fileID: 5237623944239402209}
   largeFireVisual: {fileID: 8297421004193396047}
-  smallToMediumTime: 8
-  mediumToLargeTime: 10
-  spreadIntervalMedium: 12
-  spreadIntervalLarge: 4
-  maxSpreads: 4
-  spreadChanceMedium: 0.3
-  spreadChanceLarge: 0.7
+  smallToMediumTime: 4
+  mediumToLargeTime: 4
+  spreadIntervalMedium: 4
+  spreadIntervalLarge: 2
+  maxSpreads: 10
+  spreadChanceMedium: 0.4
+  spreadChanceLarge: 1
   fireCrackle: {fileID: 0}
   stagePitches:
   - 0.8

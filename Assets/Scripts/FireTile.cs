@@ -9,14 +9,13 @@ using UnityEngine;
 ///   The fire automatically escalates over time using configurable delays.
 ///
 /// Spreading:
-///   Only begins spreading at Medium (configurable). Large spreads faster.
+///   Only begins spreading at Medium. Large spreads faster and more aggressively.
 ///
-/// Extinguishing (called by your firetruck button):
+/// Extinguishing (called by FireManager.ExtinguishNearest via the firetruck):
 ///   Each Extinguish() call reduces the stage by one level:
-///     Large  -> Medium
+///     Large  -> Medium  (escalation halted; won't re-grow)
 ///     Medium -> Small
-///     Small  -> fully gone (tile destroyed)
-///   After being knocked down, the fire does NOT re-escalate.
+///     Small  -> fully gone (tile destroyed after a short smoke delay)
 ///
 /// Visual hookup:
 ///   Assign three child GameObjects (one per stage) in the Inspector.
@@ -25,7 +24,7 @@ using UnityEngine;
 public class FireTile : MonoBehaviour
 {
     // -------------------------------------------------------------------------
-    // Burn stage enum
+    // Burn stage
     // -------------------------------------------------------------------------
 
     public enum BurnStage { Small = 0, Medium = 1, Large = 2 }
@@ -35,7 +34,7 @@ public class FireTile : MonoBehaviour
     // -------------------------------------------------------------------------
 
     [Header("Stage Visuals")]
-    [Tooltip("Child GameObject shown at Small stage (small fire sprite / particles).")]
+    [Tooltip("Child GameObject shown at Small stage.")]
     public GameObject smallFireVisual;
 
     [Tooltip("Child GameObject shown at Medium stage.")]
@@ -49,30 +48,30 @@ public class FireTile : MonoBehaviour
     // -------------------------------------------------------------------------
 
     [Header("Escalation Timings")]
-    [Tooltip("Seconds at Small stage before escalating to Medium.")]
+    [Tooltip("Seconds at Small before escalating to Medium.")]
     [Range(1f, 60f)] public float smallToMediumTime = 8f;
 
-    [Tooltip("Seconds at Medium stage before escalating to Large.")]
+    [Tooltip("Seconds at Medium before escalating to Large.")]
     [Range(1f, 60f)] public float mediumToLargeTime = 10f;
 
     // -------------------------------------------------------------------------
-    // Inspector -- Spread Settings
+    // Inspector -- Spread
     // -------------------------------------------------------------------------
 
     [Header("Spread Settings")]
-    [Tooltip("Seconds between spread attempts at Medium stage (slow).")]
+    [Tooltip("Seconds between spread attempts at Medium stage.")]
     [Range(0.5f, 30f)] public float spreadIntervalMedium = 12f;
 
-    [Tooltip("Seconds between spread attempts at Large stage (faster).")]
+    [Tooltip("Seconds between spread attempts at Large stage.")]
     [Range(0.5f, 30f)] public float spreadIntervalLarge = 4f;
 
-    [Tooltip("Maximum total times this tile spreads to neighbours before stopping.")]
+    [Tooltip("Maximum number of times this tile spreads before stopping.")]
     [Range(1, 10)] public int maxSpreads = 4;
 
-    [Tooltip("Probability (0-1) that a Medium-stage spread attempt succeeds. Keep this lower than Large.")]
+    [Tooltip("Probability a Medium spread attempt succeeds.")]
     [Range(0f, 1f)] public float spreadChanceMedium = 0.3f;
 
-    [Tooltip("Probability (0-1) that a Large-stage spread attempt succeeds.")]
+    [Tooltip("Probability a Large spread attempt succeeds.")]
     [Range(0f, 1f)] public float spreadChanceLarge = 0.7f;
 
     // -------------------------------------------------------------------------
@@ -83,31 +82,29 @@ public class FireTile : MonoBehaviour
     [Tooltip("Looping crackle AudioSource. Pitch rises with each stage.")]
     public AudioSource fireCrackle;
 
-    [Tooltip("Pitch values for Small, Medium, and Large stages respectively.")]
+    [Tooltip("Pitch values for Small, Medium, and Large stages.")]
     public float[] stagePitches = { 0.8f, 1.0f, 1.3f };
 
     // -------------------------------------------------------------------------
-    // Runtime state
+    // Runtime state (read from other scripts if needed)
     // -------------------------------------------------------------------------
 
     public Vector2Int GridPosition { get; set; }
-    public BurnStage CurrentStage { get; private set; } = BurnStage.Small;
-    public bool IsExtinguished { get; private set; } = false;
+    public BurnStage  CurrentStage { get; private set; } = BurnStage.Small;
+    public bool       IsExtinguished { get; private set; } = false;
 
     // -------------------------------------------------------------------------
     // Private
     // -------------------------------------------------------------------------
 
-    private int spreadsRemaining;
+    private int      spreadsRemaining;
     private Coroutine escalationCoroutine;
     private Coroutine spreadCoroutine;
 
-    private static readonly Vector2Int[] Directions =
+    // Instance array so ShuffleDirections() doesn't affect other FireTiles.
+    private Vector2Int[] directions =
     {
-        Vector2Int.up,
-        Vector2Int.down,
-        Vector2Int.left,
-        Vector2Int.right
+        Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
     };
 
     // -------------------------------------------------------------------------
@@ -116,9 +113,9 @@ public class FireTile : MonoBehaviour
 
     private void Start()
     {
-        spreadsRemaining = maxSpreads;
+        spreadsRemaining    = maxSpreads;
         escalationCoroutine = StartCoroutine(EscalationRoutine());
-        spreadCoroutine = StartCoroutine(SpreadRoutine());
+        spreadCoroutine     = StartCoroutine(SpreadRoutine());
 
         ApplyStageVisuals(BurnStage.Small);
 
@@ -132,17 +129,14 @@ public class FireTile : MonoBehaviour
 
     private IEnumerator EscalationRoutine()
     {
-        // Small -> Medium
         yield return new WaitForSeconds(smallToMediumTime);
         if (IsExtinguished) yield break;
         ChangeStage(BurnStage.Medium);
 
-        // Medium -> Large
         yield return new WaitForSeconds(mediumToLargeTime);
         if (IsExtinguished) yield break;
         ChangeStage(BurnStage.Large);
-
-        // Large is final; no further escalation.
+        // Large is the final stage.
     }
 
     private void ChangeStage(BurnStage newStage)
@@ -154,9 +148,9 @@ public class FireTile : MonoBehaviour
 
     private void ApplyStageVisuals(BurnStage stage)
     {
-        if (smallFireVisual != null) smallFireVisual.SetActive(stage == BurnStage.Small);
+        if (smallFireVisual  != null) smallFireVisual.SetActive(stage  == BurnStage.Small);
         if (mediumFireVisual != null) mediumFireVisual.SetActive(stage == BurnStage.Medium);
-        if (largeFireVisual != null) largeFireVisual.SetActive(stage == BurnStage.Large);
+        if (largeFireVisual  != null) largeFireVisual.SetActive(stage  == BurnStage.Large);
 
         if (fireCrackle != null && stagePitches.Length > (int)stage)
             fireCrackle.pitch = stagePitches[(int)stage];
@@ -168,17 +162,15 @@ public class FireTile : MonoBehaviour
 
     private IEnumerator SpreadRoutine()
     {
-        // Small stage never spreads — wait until we reach Medium first.
+        // Wait until we leave Small stage before spreading.
         while (CurrentStage == BurnStage.Small && !IsExtinguished)
             yield return new WaitForSeconds(1f);
 
         while (spreadsRemaining > 0 && !IsExtinguished)
         {
-            // Pick interval and success chance based on current stage.
-            // Large is faster and more likely to infect than Medium.
-            bool isLarge = CurrentStage == BurnStage.Large;
-            float interval = isLarge ? spreadIntervalLarge : spreadIntervalMedium;
-            float chance = isLarge ? spreadChanceLarge : spreadChanceMedium;
+            bool  isLarge  = CurrentStage == BurnStage.Large;
+            float interval = isLarge ? spreadIntervalLarge  : spreadIntervalMedium;
+            float chance   = isLarge ? spreadChanceLarge    : spreadChanceMedium;
 
             yield return new WaitForSeconds(interval);
             if (IsExtinguished) yield break;
@@ -192,7 +184,7 @@ public class FireTile : MonoBehaviour
     {
         ShuffleDirections();
 
-        foreach (var dir in Directions)
+        foreach (var dir in directions)
         {
             if (Random.value > chance) continue;
 
@@ -201,25 +193,20 @@ public class FireTile : MonoBehaviour
             if (FireManager.Instance != null && !FireManager.Instance.IsBurning(target))
             {
                 FireManager.Instance.SpawnFire(new Vector2(target.x, target.y));
-                break; // Spread to ONE neighbour per tick. Remove 'break' for multi-spread.
+                break; // one neighbour per tick; remove 'break' to allow multi-spread
             }
         }
     }
 
     // -------------------------------------------------------------------------
-    // Extinguishing -- called by your firetruck button script
+    // Extinguishing -- called by FireManager.ExtinguishNearest()
     // -------------------------------------------------------------------------
 
     /// <summary>
     /// Reduces the fire by ONE stage per call.
-    ///
-    ///   Large  -> Medium  (escalation stopped; fire won't grow back)
+    ///   Large  -> Medium  (escalation stops; won't re-grow)
     ///   Medium -> Small
     ///   Small  -> fully extinguished and destroyed
-    ///
-    /// Wire this up in your firetruck button handler:
-    ///   FireTile fire = GetNearestFire();
-    ///   if (fire != null) fire.Extinguish();
     /// </summary>
     public void Extinguish()
     {
@@ -228,7 +215,7 @@ public class FireTile : MonoBehaviour
         switch (CurrentStage)
         {
             case BurnStage.Large:
-                // Stop auto-escalation so the tile stays at Medium after being knocked down.
+                // Stop the escalation coroutine so it stays at Medium after being knocked down.
                 if (escalationCoroutine != null)
                 {
                     StopCoroutine(escalationCoroutine);
@@ -247,10 +234,7 @@ public class FireTile : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Instantly destroys the fire regardless of current stage.
-    /// Useful for power-ups, level resets, or debug tools.
-    /// </summary>
+    /// <summary>Instantly destroys the fire regardless of stage. Use for resets or power-ups.</summary>
     public void ForceExtinguish()
     {
         if (!IsExtinguished) FullyExtinguish();
@@ -261,17 +245,18 @@ public class FireTile : MonoBehaviour
         IsExtinguished = true;
 
         if (escalationCoroutine != null) StopCoroutine(escalationCoroutine);
-        if (spreadCoroutine != null) StopCoroutine(spreadCoroutine);
+        if (spreadCoroutine     != null) StopCoroutine(spreadCoroutine);
 
-        if (smallFireVisual != null) smallFireVisual.SetActive(false);
+        if (smallFireVisual  != null) smallFireVisual.SetActive(false);
         if (mediumFireVisual != null) mediumFireVisual.SetActive(false);
-        if (largeFireVisual != null) largeFireVisual.SetActive(false);
+        if (largeFireVisual  != null) largeFireVisual.SetActive(false);
 
         if (fireCrackle != null) fireCrackle.Stop();
 
+        // Notify FireManager to remove from registry.
         FireManager.Instance?.UnregisterFire(GridPosition);
 
-        // Short delay so a smoke-puff effect has time to play before destruction.
+        // Short delay allows a smoke-puff VFX to finish before the GameObject is destroyed.
         Destroy(gameObject, 1.5f);
     }
 
@@ -280,13 +265,11 @@ public class FireTile : MonoBehaviour
     // -------------------------------------------------------------------------
 
     /// <summary>
-    /// Returns true if the firetruck world position is within extinguishing range.
-    /// Use this in your firetruck script to show / hide the extinguish button.
+    /// Returns true if the firetruck is within extinguishing range.
+    /// Used by UIManager to show/hide the Extinguish button.
     /// </summary>
     public bool IsWithinExtinguishRange(Vector2 firetruckWorldPos, float range = 1.5f)
-    {
-        return Vector2.Distance(transform.position, firetruckWorldPos) <= range;
-    }
+        => Vector2.Distance(transform.position, firetruckWorldPos) <= range;
 
     // -------------------------------------------------------------------------
     // Utility
@@ -294,10 +277,10 @@ public class FireTile : MonoBehaviour
 
     private void ShuffleDirections()
     {
-        for (int i = Directions.Length - 1; i > 0; i--)
+        for (int i = directions.Length - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
-            (Directions[i], Directions[j]) = (Directions[j], Directions[i]);
+            (directions[i], directions[j]) = (directions[j], directions[i]);
         }
     }
 
@@ -305,10 +288,10 @@ public class FireTile : MonoBehaviour
     {
         Gizmos.color = CurrentStage switch
         {
-            BurnStage.Small => new Color(1f, 1f, 0f, 0.4f),
+            BurnStage.Small  => new Color(1f, 1f,  0f,  0.4f),
             BurnStage.Medium => new Color(1f, 0.5f, 0f, 0.4f),
-            BurnStage.Large => new Color(1f, 0.1f, 0f, 0.5f),
-            _ => Color.white
+            BurnStage.Large  => new Color(1f, 0.1f, 0f, 0.5f),
+            _                => Color.white
         };
         Gizmos.DrawWireCube(transform.position, Vector3.one);
     }

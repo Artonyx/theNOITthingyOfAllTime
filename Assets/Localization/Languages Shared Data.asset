@@ -163,6 +163,26 @@ MonoBehaviour:
     m_Key: settings
     m_Metadata:
       m_Items: []
+  - m_Id: 16975134720950272
+    m_Key: What would you like to do with this firetruck?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16975449138561024
+    m_Key: extinguish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16976039826587648
+    m_Key: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16977552468770816
+    m_Key: stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17033159401963520
+    m_Key: cancel
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
