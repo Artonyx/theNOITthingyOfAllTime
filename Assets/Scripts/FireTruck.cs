@@ -44,7 +44,9 @@ public class FireTruck : MonoBehaviour
     // Private runtime
     // -------------------------------------------------------------------------
 
-    private AStarPathfinder _pathfinder;
+    private AStarPathfinder   _pathfinder;
+    private FiretruckOutline  _outline;
+    private FiretruckAnimation _anim;
     private List<Vector3>   _currentPath = new List<Vector3>();
     private Coroutine       _moveCoroutine;
     private Coroutine       _extinguishCoroutine;
@@ -56,6 +58,8 @@ public class FireTruck : MonoBehaviour
     private void Awake()
     {
         _pathfinder = FindObjectOfType<AStarPathfinder>();
+        _outline    = GetComponent<FiretruckOutline>();
+        _anim       = GetComponent<FiretruckAnimation>();
         if (_pathfinder == null)
             Debug.LogError("[FireTruck] No AStarPathfinder found in scene!");
 
@@ -75,6 +79,7 @@ public class FireTruck : MonoBehaviour
     {
         _state = TruckState.Selected;
         SetSelectionIndicator(true);
+        _outline?.ShowOutline();
     }
 
     public void OnDeselected()
@@ -82,6 +87,7 @@ public class FireTruck : MonoBehaviour
         if (_state == TruckState.Selected)
             _state = TruckState.Idle;
         SetSelectionIndicator(false);
+        _outline?.HideOutline();
     }
 
     /// <summary>Pathfind to a world-space destination. Called after [Q] + map click.</summary>
@@ -101,6 +107,7 @@ public class FireTruck : MonoBehaviour
 
         _currentPath   = path;
         _state         = TruckState.Moving;
+        TruckHUD.Instance?.OnTruckMoving();
         _moveCoroutine = StartCoroutine(FollowPath());
     }
 
@@ -115,9 +122,7 @@ public class FireTruck : MonoBehaviour
         SetWaterVFX(false);
         _currentPath.Clear();
         _state = TruckState.Arrived;
-
-        // Refresh extinguish button availability at new position
-        TruckHUD.Instance?.RefreshExtinguishInteractable(this);
+        TruckHUD.Instance?.OnTruckStopped(this);
     }
 
     /// <summary>Begin extinguishing fires in range. Called by [E].</summary>
@@ -127,6 +132,7 @@ public class FireTruck : MonoBehaviour
 
         StopAllTruckCoroutines();
         _state               = TruckState.Extinguishing;
+        TruckHUD.Instance?.OnExtinguishStarted();
         _extinguishCoroutine = StartCoroutine(ExtinguishRoutine());
     }
 
@@ -145,9 +151,11 @@ public class FireTruck : MonoBehaviour
     {
         foreach (Vector3 waypoint in _currentPath)
         {
-            Vector3 dir = (waypoint - transform.position).normalized;
-            if (dir != Vector3.zero)
-                transform.up = dir;
+            // Tell the animator the exact direction to this waypoint up front —
+            // no per-frame delta needed, no flicker.
+            Vector2 dir = (new Vector2(waypoint.x, waypoint.y)
+                         - new Vector2(transform.position.x, transform.position.y)).normalized;
+            _anim?.SetMovementDirection(dir);
 
             while (Vector3.Distance(transform.position, waypoint) > waypointThreshold)
             {
@@ -158,9 +166,8 @@ public class FireTruck : MonoBehaviour
 
             transform.position = waypoint;
         }
-
         _state = TruckState.Arrived;
-        TruckHUD.Instance?.RefreshExtinguishInteractable(this);
+        TruckHUD.Instance?.OnTruckArrived(this);
     }
 
     // -------------------------------------------------------------------------
@@ -188,7 +195,7 @@ public class FireTruck : MonoBehaviour
 
         SetWaterVFX(false);
         _state = TruckState.Idle;
-        TruckHUD.Instance?.RefreshExtinguishInteractable(this);
+        TruckHUD.Instance?.OnExtinguishFinished(this);
     }
 
     // -------------------------------------------------------------------------

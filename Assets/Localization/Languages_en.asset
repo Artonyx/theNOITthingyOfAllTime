@@ -189,15 +189,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 16975449138561024
-    m_Localized: Extinguish
+    m_Localized: '[E] Extinguish'
     m_Metadata:
       m_Items: []
   - m_Id: 16976039826587648
-    m_Localized: Move
+    m_Localized: '[Q] Move'
     m_Metadata:
       m_Items: []
   - m_Id: 16977552468770816
-    m_Localized: Stop
+    m_Localized: '[W] Stop'
     m_Metadata:
       m_Items: []
   - m_Id: 17033159401963520

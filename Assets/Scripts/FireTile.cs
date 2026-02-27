@@ -89,7 +89,7 @@ public class FireTile : MonoBehaviour
     // Runtime state (read from other scripts if needed)
     // -------------------------------------------------------------------------
 
-    public Vector2Int GridPosition { get; set; }
+    public Vector3Int CellPosition { get; set; }  // full tilemap cell key including z
     public BurnStage  CurrentStage { get; private set; } = BurnStage.Small;
     public bool       IsExtinguished { get; private set; } = false;
 
@@ -188,11 +188,14 @@ public class FireTile : MonoBehaviour
         {
             if (Random.value > chance) continue;
 
-            Vector2Int target = GridPosition + dir;
+            // Offset x/y, preserve z from the source cell so the key always matches
+            Vector3Int targetCell = new Vector3Int(CellPosition.x + dir.x,
+                                                   CellPosition.y + dir.y,
+                                                   CellPosition.z);
 
-            if (FireManager.Instance != null && !FireManager.Instance.IsBurning(target))
+            if (FireManager.Instance != null && !FireManager.Instance.IsBurning(targetCell))
             {
-                FireManager.Instance.SpawnFire(new Vector2(target.x, target.y));
+                FireManager.Instance.SpawnFireAtCell(targetCell);
                 break; // one neighbour per tick; remove 'break' to allow multi-spread
             }
         }
@@ -253,11 +256,18 @@ public class FireTile : MonoBehaviour
 
         if (fireCrackle != null) fireCrackle.Stop();
 
-        // Notify FireManager to remove from registry.
-        FireManager.Instance?.UnregisterFire(GridPosition);
+        StartCoroutine(DestroyAfterDelay(1.5f));
+    }
 
-        // Short delay allows a smoke-puff VFX to finish before the GameObject is destroyed.
-        Destroy(gameObject, 1.5f);
+    private System.Collections.IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Unregister only after the delay so the cell stays blocked during
+        // the smoke VFX window — prevents a new fire spawning on top.
+        // After unregistering the cell is free to catch fire again naturally.
+        FireManager.Instance?.UnregisterFire(CellPosition);
+        Destroy(gameObject);
     }
 
     // -------------------------------------------------------------------------
@@ -269,7 +279,8 @@ public class FireTile : MonoBehaviour
     /// Used by UIManager to show/hide the Extinguish button.
     /// </summary>
     public bool IsWithinExtinguishRange(Vector2 firetruckWorldPos, float range = 1.5f)
-        => Vector2.Distance(transform.position, firetruckWorldPos) <= range;
+        => Vector2.Distance(new Vector2(transform.position.x, transform.position.y),
+                            firetruckWorldPos) <= range;
 
     // -------------------------------------------------------------------------
     // Utility
