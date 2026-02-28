@@ -183,6 +183,18 @@ MonoBehaviour:
     m_Key: cancel
     m_Metadata:
       m_Items: []
+  - m_Id: 17599111797571584
+    m_Key: deaths
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17600159576653824
+    m_Key: time left
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17617180578185216
+    m_Key: important information
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

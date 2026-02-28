@@ -86,8 +86,6 @@ public class FireManager : MonoBehaviour
 
         if (enableRandomSpawning)
             StartCoroutine(RandomSpawnRoutine());
-        
-        Debug.Log(buildingTilemap.GetCellCenterWorld(new Vector3Int(0, 0, 0)));
     }
 
     // -------------------------------------------------------------------------
@@ -125,7 +123,7 @@ public class FireManager : MonoBehaviour
         Tilemap sourceTilemap = (buildingTilemap != null && buildingTilemap.HasTile(cell))
             ? buildingTilemap : treesTilemap;
         Vector3 worldCenter = sourceTilemap.GetCellCenterWorld(cell);
-        GameObject go = Instantiate(fireTilePrefab, worldCenter, Quaternion.identity);
+        GameObject go = Instantiate(fireTilePrefab, worldCenter, Quaternion.identity, transform);
         go.name = $"Fire_{cell.x}_{cell.y}";
 
         ApplyFireSortingLayer(go);

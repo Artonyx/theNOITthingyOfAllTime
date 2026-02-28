@@ -204,6 +204,43 @@ MonoBehaviour:
     m_Localized: Cancel
     m_Metadata:
       m_Items: []
+  - m_Id: 17599111797571584
+    m_Localized: 'Deaths:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17600159576653824
+    m_Localized: 'Time left:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17617180578185216
+    m_Localized: "IMPORTANT!!\nIn a fire, the most underestimated factor is toxic
+      gases.\nIn an active fire in an apartment building, DO NOT LEAVE THE APARTMENT
+      UNTIL THE FIREFIGHTERS ARRIVE. Place wet towels at the corners and along the
+      door seams, and the person should lock themselves in the bathroom WITHOUT TURNING
+      ON ANY VENTILATION. A wet cloth over the face is mandatory.\n\nWhat NOT to
+      do\n\u2022 Do not use the elevator during a fire.\n\u2022 Do not extinguish
+      a grease fire with water (cover the container with a lid or use a fire extinguisher).\n\u2022
+      Do not open a door to a smoke-filled room without checking the temperature.\n\nPreventive
+      measures:\nDo not overload power strips and outlets \u2013 avoid \u201Cpower
+      strip into power strip.\u201D Watch for overheating, burning smell, sparking.
+      Use residual current devices (RCD) and automatic circuit breakers.\nDo not
+      leave cooking unattended, as fats ignite quickly. Clean range hoods and filters
+      from accumulated grease. For stoves and heaters \u2013 maintain a safe distance
+      from furniture and curtains. Check connections and hoses for leaks, and if
+      you smell gas \u2013 ventilate, do not turn on electrical appliances, and call
+      112. Install a gas/carbon monoxide detector if needed. Install smoke detectors
+      and test the batteries monthly. Keep a small fire extinguisher, either powder
+      or carbon dioxide, in the kitchen/hallway and know how to use it.\nIn case
+      of fire, use the designated evacuation exits. Do not store items in stairwells
+      and corridors. Maintain fire doors (they should self-close and not be propped
+      open). Ensure hydrants and fire extinguishers are functional and inspected
+      annually. Train the building manager/personnel for basic incident response.
+      Post a clear evacuation plan in visible places and provide emergency lighting.\nEnsure
+      free access for fire trucks (no parking in front of hydrants and entrances).
+      Control unauthorized burning of waste. Report hazards to the General Directorate
+      \u201CFire Safety and Civil Protection.\u201D"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
