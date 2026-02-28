@@ -133,32 +133,39 @@ public class FireManager : MonoBehaviour
     // Public API
     // -------------------------------------------------------------------------
 
-    /// <summary>Spawn initial fires on random window cells at scene start.</summary>
+    /// <summary>Spawn initial fires on random window or tree cells at scene start.</summary>
     private void SpawnInitialFires()
     {
-        if (windowsTilemap == null || initialFireCount <= 0) return;
+        if (initialFireCount <= 0) return;
 
-        // Collect all window cells that are also burnable
-        List<Vector3Int> windowCells = new List<Vector3Int>();
-        foreach (var pos in windowsTilemap.cellBounds.allPositionsWithin)
-            if (windowsTilemap.HasTile(pos) && IsBurnable(pos))
-                windowCells.Add(pos);
+        // Collect all burnable window and tree cells
+        List<Vector3Int> candidates = new List<Vector3Int>();
 
-        if (windowCells.Count == 0)
+        if (windowsTilemap != null)
+            foreach (var pos in windowsTilemap.cellBounds.allPositionsWithin)
+                if (windowsTilemap.HasTile(pos) && IsBurnable(pos))
+                    candidates.Add(pos);
+
+        if (treesTilemap != null)
+            foreach (var pos in treesTilemap.cellBounds.allPositionsWithin)
+                if (treesTilemap.HasTile(pos) && IsBurnable(pos) && !candidates.Contains(pos))
+                    candidates.Add(pos);
+
+        if (candidates.Count == 0)
         {
-            Debug.LogWarning("[FireManager] No burnable window cells found for initial fire spawn.");
+            Debug.LogWarning("[FireManager] No burnable window or tree cells found for initial fire spawn.");
             return;
         }
 
         // Shuffle and pick initialFireCount unique cells
-        for (int i = windowCells.Count - 1; i > 0; i--)
+        for (int i = candidates.Count - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
-            (windowCells[i], windowCells[j]) = (windowCells[j], windowCells[i]);
+            (candidates[i], candidates[j]) = (candidates[j], candidates[i]);
         }
 
         int spawned = 0;
-        foreach (var cell in windowCells)
+        foreach (var cell in candidates)
         {
             if (spawned >= initialFireCount) break;
             SpawnFireAtCell(cell);
@@ -180,6 +187,7 @@ public class FireManager : MonoBehaviour
 
         _activeFires[cell] = data;
         PaintFireTile(cell, FireStage.Small);
+        SmokeManager.Instance?.UpdateSmoke(cell, FireStage.Small);
 
         data.escalationCoroutine = StartCoroutine(EscalationRoutine(cell));
         data.spreadCoroutine     = StartCoroutine(SpreadRoutine(cell));
@@ -359,6 +367,9 @@ public class FireManager : MonoBehaviour
         data.stage         = newStage;
         PaintFireTile(cell, newStage);
 
+        // Update smoke intensity for new stage
+        SmokeManager.Instance?.UpdateSmoke(cell, newStage);
+
         // Notify population system when a fire becomes or leaves Large stage
         if (newStage == FireStage.Large && oldStage != FireStage.Large)
             CityPopulation.Instance?.OnFireBecameLarge(cell);
@@ -390,6 +401,7 @@ public class FireManager : MonoBehaviour
 
         fireBackground.SetTile(cell, null);
         fireForeground.SetTile(cell, null);
+        SmokeManager.Instance?.RemoveSmoke(cell);
 
         _activeFires.Remove(cell);
 
@@ -403,12 +415,15 @@ public class FireManager : MonoBehaviour
 
     public bool IsBurnable(Vector3Int cell)
     {
-        if (groundTilemap   != null && groundTilemap.HasTile(cell))   return false;
-        if (sidewalkTilemap != null && sidewalkTilemap.HasTile(cell))  return false;
-
         bool hasBuilding = buildingTilemap != null && buildingTilemap.HasTile(cell);
         bool hasTrees    = treesTilemap    != null && treesTilemap.HasTile(cell);
-        return hasBuilding || hasTrees;
+
+        // Trees and buildings are always burnable regardless of what's underneath —
+        // this handles cases where tree tiles are painted over ground tiles.
+        if (hasBuilding || hasTrees) return true;
+
+        // Cells with only road or sidewalk tiles are fireproof
+        return false;
     }
 
     // -------------------------------------------------------------------------

@@ -411,7 +411,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1693742623
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_RenderMode: 0
@@ -5580,7 +5580,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 2079414249
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -21011,7 +21011,7 @@ GameObject:
   - component: {fileID: 416950371}
   - component: {fileID: 416950373}
   - component: {fileID: 416950372}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FireForeground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21079,7 +21079,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 2079414249
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -22412,7 +22412,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 2041975097
-  m_SortingLayer: 6
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -26301,7 +26301,7 @@ GameObject:
   - component: {fileID: 774892875}
   - component: {fileID: 774892877}
   - component: {fileID: 774892876}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FireBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26369,7 +26369,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -112573623
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -28107,6 +28107,7 @@ GameObject:
   - component: {fileID: 1224766507}
   - component: {fileID: 1224766508}
   - component: {fileID: 1224766509}
+  - component: {fileID: 1224766510}
   m_Layer: 0
   m_Name: levelSpecificGameManager
   m_TagString: Untagged
@@ -28249,6 +28250,31 @@ MonoBehaviour:
   deathCheckInterval: 8
   deathChance: 0.3
   deathCounterText: {fileID: 1435532366}
+--- !u!114 &1224766510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224766503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd59c6a2415b3b5e7aa86dd8b822a0c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SmokeManager
+  smokeSprite: {fileID: 21300000, guid: 0c8eb17a7ff21a449985f40cb8c458bb, type: 3}
+  smokeSortingLayer: Buildings
+  smokeSortingOrder: 2
+  referenceTilemap: {fileID: 416950373}
+  emissionRateSmall: 3
+  emissionRateMedium: 8
+  emissionRateLarge: 18
+  startSpeed: 0.5
+  startSize: 0.6
+  startLifetime: 2.5
+  riseSpeed: 0.3
+  drift: 0.1
+  smokeColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.5}
 --- !u!1 &1243519121
 GameObject:
   m_ObjectHideFlags: 0
@@ -42163,7 +42189,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1693742623
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -347627570514976070, guid: 73d9fab00b970c44c9a27c6d4490eca7, type: 3}
@@ -50450,6 +50476,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 668594426}
     - target: {fileID: 6337232679820437579, guid: db8330b0ea193b641a5d31126633ae61, type: 3}
+      propertyPath: firesPerSpawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337232679820437579, guid: db8330b0ea193b641a5d31126633ae61, type: 3}
       propertyPath: groundTilemap
       value: 
       objectReference: {fileID: 1915030800}
@@ -50461,6 +50491,10 @@ PrefabInstance:
       propertyPath: smallFireTile
       value: 
       objectReference: {fileID: 11400000, guid: 41d8ff9b453d61898b342d4948103e58, type: 2}
+    - target: {fileID: 6337232679820437579, guid: db8330b0ea193b641a5d31126633ae61, type: 3}
+      propertyPath: spawnInterval
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6337232679820437579, guid: db8330b0ea193b641a5d31126633ae61, type: 3}
       propertyPath: fireBackground
       value: 

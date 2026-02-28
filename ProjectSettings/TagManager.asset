@@ -48,6 +48,9 @@ TagManager:
   - name: Windows
     uniqueID: 4229990321
     locked: 0
+  - name: Trees
+    uniqueID: 2041975097
+    locked: 0
   - name: Fire
     uniqueID: 4182393673
     locked: 0
@@ -56,9 +59,6 @@ TagManager:
     locked: 0
   - name: Vehicles
     uniqueID: 1693742623
-    locked: 0
-  - name: Trees
-    uniqueID: 2041975097
     locked: 0
   m_RenderingLayers:
   - Default
