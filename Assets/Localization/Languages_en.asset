@@ -139,8 +139,7 @@ MonoBehaviour:
   - m_Id: 13238398094311424
     m_Localized: The controls are simple; you choose and click on a fire engine and
       assign it a task whenever there is an active fire in the city. You have to
-      do this for a day within the city but it will take you around 5 minutes of
-      your time.
+      do this for a day within the city but it will take you 1 minute of your time.
     m_Metadata:
       m_Items: []
   - m_Id: 13239190616440832

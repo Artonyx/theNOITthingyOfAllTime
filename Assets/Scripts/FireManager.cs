@@ -4,48 +4,59 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Manages fire spawning, spreading, and extinguishing.
-/// Uses the Tilemap coordinate system directly so fires are always
-/// snapped to tile centers and only spawn on burnable tiles.
+/// Manages fire entirely through two Tilemaps (FireBackground + FireForeground)
+/// using AnimatedTile assets for each stage. No FireTile prefabs needed.
 ///
 /// SETUP:
-///  1. Attach to a GameObject in your scene.
-///  2. Assign fireTilePrefab, buildingTilemap, and optionally sidewalkTilemap.
-///     Fire spawns on buildingTilemap tiles only.
-///     sidewalkTilemap is used to prevent fire spreading onto paths.
-///  3. Configure spawning and spread settings in the Inspector.
+///  1. Assign all tilemap references in the Inspector.
+///  2. Assign your three AnimatedTile assets (smallFireTile, mediumFireTile, largeFireTile).
+///  3. Set FireBackground Tilemap Renderer: Sorting Layer = Fire
+///  4. Set FireForeground Tilemap Renderer: Sorting Layer = Buildings, Order in Layer = 1
+///  5. Configure spread and escalation settings below.
 /// </summary>
 public class FireManager : MonoBehaviour
 {
     public static FireManager Instance { get; private set; }
 
     // -------------------------------------------------------------------------
-    // Inspector
+    // Inspector — Tilemaps
     // -------------------------------------------------------------------------
 
-    [Header("Fire Prefab")]
-    public GameObject fireTilePrefab;
+    [Header("Fire Tilemaps")]
+    [Tooltip("Small and Medium fires render here — sorting layer below Buildings.")]
+    public Tilemap fireBackground;
+    [Tooltip("Large fires render here — sorting layer above Buildings.")]
+    public Tilemap fireForeground;
 
-    [Header("Tilemaps — Burnable")]
-    [Tooltip("Fire spawns and spreads on tiles that exist on this tilemap.")]
+    [Header("Burnable Tilemaps")]
     public Tilemap buildingTilemap;
-    [Tooltip("Fire can also spread to tree tiles.")]
     public Tilemap treesTilemap;
+    [Tooltip("Initial fires spawn on random cells from this tilemap.")]
+    public Tilemap windowsTilemap;
 
-    [Header("Tilemaps — Fireproof (fire never spawns or spreads here)")]
-    [Tooltip("Road tilemap.")]
+    [Header("Fireproof Tilemaps")]
     public Tilemap groundTilemap;
-    [Tooltip("Pathwalk/sidewalk tilemap.")]
     public Tilemap sidewalkTilemap;
 
-    [Header("Layer Settings")]
-    public string fireSortingLayerName = "Fire";
-    public int    fireSortingOrder     = 0;
+    // -------------------------------------------------------------------------
+    // Inspector — Animated Tiles
+    // -------------------------------------------------------------------------
+
+    [Header("Fire Stage Tiles")]
+    [Tooltip("AnimatedTile asset for Small fire stage.")]
+    public TileBase smallFireTile;
+    [Tooltip("AnimatedTile asset for Medium fire stage.")]
+    public TileBase mediumFireTile;
+    [Tooltip("AnimatedTile asset for Large fire stage.")]
+    public TileBase largeFireTile;
+
+    // -------------------------------------------------------------------------
+    // Inspector — Spawning
+    // -------------------------------------------------------------------------
 
     [Header("Initial Fires")]
-    [Tooltip("World-space positions where fire starts at scene load. " +
-             "Each position is snapped to the nearest burnable tile.")]
-    public List<Vector2> initialFirePositions = new List<Vector2>();
+    [Tooltip("How many fires to spawn on random window cells at scene start.")]
+    public int initialFireCount = 1;
 
     [Header("Random Spawning")]
     public bool  enableRandomSpawning = true;
@@ -53,15 +64,50 @@ public class FireManager : MonoBehaviour
     public float spawnInterval        = 25f;
     public int   firesPerSpawn        = 1;
 
-    [Header("Win/Lose Events")]
+    // -------------------------------------------------------------------------
+    // Inspector — Per-cell defaults (overridable per cell via FireCellData)
+    // -------------------------------------------------------------------------
+
+    [Header("Escalation Timings (seconds)")]
+    public float smallToMediumTime = 8f;
+    public float mediumToLargeTime = 10f;
+
+    [Header("Spread Settings")]
+    [Range(0.5f, 30f)] public float spreadIntervalMedium = 12f;
+    [Range(0.5f, 30f)] public float spreadIntervalLarge  = 4f;
+    [Range(1, 10)]     public int   maxSpreads            = 4;
+    [Range(0f, 1f)]    public float spreadChanceMedium    = 0.3f;
+    [Range(0f, 1f)]    public float spreadChanceLarge     = 0.7f;
+
+    // -------------------------------------------------------------------------
+    // Inspector — Events
+    // -------------------------------------------------------------------------
+
+    [Header("Events")]
     public UnityEngine.Events.UnityEvent onAllFiresExtinguished;
 
     // -------------------------------------------------------------------------
-    // Runtime — keyed by Vector3Int tilemap cell position
+    // Fire cell state
     // -------------------------------------------------------------------------
 
-    private Dictionary<Vector3Int, FireTile> activeFires  = new Dictionary<Vector3Int, FireTile>();
-    private List<Vector3Int>                 burnableCells = new List<Vector3Int>();
+    public enum FireStage { Small, Medium, Large }
+
+    private class FireCellData
+    {
+        public FireStage stage           = FireStage.Small;
+        public int       spreadsLeft;
+        public Coroutine escalationCoroutine;
+        public Coroutine spreadCoroutine;
+    }
+
+    private Dictionary<Vector3Int, FireCellData> _activeFires
+        = new Dictionary<Vector3Int, FireCellData>();
+
+    private List<Vector3Int> _burnableCells = new List<Vector3Int>();
+
+    private static readonly Vector3Int[] CardinalDirs = {
+        Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
+    };
 
     // -------------------------------------------------------------------------
     // Unity lifecycle
@@ -77,12 +123,7 @@ public class FireManager : MonoBehaviour
     {
         CacheBurnableCells();
 
-        foreach (var pos in initialFirePositions)
-        {
-            Vector3Int cell = WorldToCell(pos);
-            if (IsBurnable(cell))
-                SpawnFireAtCell(cell);
-        }
+        SpawnInitialFires();
 
         if (enableRandomSpawning)
             StartCoroutine(RandomSpawnRoutine());
@@ -92,104 +133,283 @@ public class FireManager : MonoBehaviour
     // Public API
     // -------------------------------------------------------------------------
 
-    /// <summary>Spawn fire at a world position, snapped to the nearest burnable tile.</summary>
-    public FireTile SpawnFire(Vector2 worldPos)
+    /// <summary>Spawn initial fires on random window cells at scene start.</summary>
+    private void SpawnInitialFires()
     {
-        Vector3Int cell = WorldToCell(worldPos);
+        if (windowsTilemap == null || initialFireCount <= 0) return;
 
-        // If the exact cell isn't burnable, search the immediate neighbours —
-        // this handles cases where a world position lands on a cell boundary.
-        if (!IsBurnable(cell))
+        // Collect all window cells that are also burnable
+        List<Vector3Int> windowCells = new List<Vector3Int>();
+        foreach (var pos in windowsTilemap.cellBounds.allPositionsWithin)
+            if (windowsTilemap.HasTile(pos) && IsBurnable(pos))
+                windowCells.Add(pos);
+
+        if (windowCells.Count == 0)
         {
-            cell = FindNearestBurnableCell(cell, 2);
-            if (cell == Vector3Int.back) return null; // nothing found
+            Debug.LogWarning("[FireManager] No burnable window cells found for initial fire spawn.");
+            return;
         }
 
-        return SpawnFireAtCell(cell);
+        // Shuffle and pick initialFireCount unique cells
+        for (int i = windowCells.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (windowCells[i], windowCells[j]) = (windowCells[j], windowCells[i]);
+        }
+
+        int spawned = 0;
+        foreach (var cell in windowCells)
+        {
+            if (spawned >= initialFireCount) break;
+            SpawnFireAtCell(cell);
+            spawned++;
+        }
     }
 
-    /// <summary>Spawn fire at an exact tilemap cell.</summary>
-    public FireTile SpawnFireAtCell(Vector3Int cell)
+    /// <summary>Spawn fire at a tilemap cell position.</summary>
+    public void SpawnFireAtCell(Vector3Int cell)
     {
-        // Double-check both conditions atomically to prevent race conditions
-        // where two spread attempts target the same empty cell in the same frame.
-        if (!IsBurnable(cell)) return null;
-        if (activeFires.ContainsKey(cell)) return activeFires[cell];
+        if (!IsBurnable(cell))          return;
+        if (_activeFires.ContainsKey(cell)) return;
 
-        // Use whichever burnable tilemap owns this cell for accurate centering.
-        // All tilemaps share the same Grid so GetCellCenterWorld gives the same
-        // result from any of them — but we pick one that actually has the tile
-        // to be explicit.
-        Tilemap sourceTilemap = (buildingTilemap != null && buildingTilemap.HasTile(cell))
-            ? buildingTilemap : treesTilemap;
-        Vector3 worldCenter = sourceTilemap.GetCellCenterWorld(cell);
-        GameObject go = Instantiate(fireTilePrefab, worldCenter, Quaternion.identity, transform);
-        go.name = $"Fire_{cell.x}_{cell.y}";
+        FireCellData data = new FireCellData
+        {
+            stage        = FireStage.Small,
+            spreadsLeft  = maxSpreads
+        };
 
-        ApplyFireSortingLayer(go);
+        _activeFires[cell] = data;
+        PaintFireTile(cell, FireStage.Small);
 
-        FireTile tile = go.GetComponent<FireTile>();
-        if (tile == null) tile = go.AddComponent<FireTile>();
-
-        tile.CellPosition = cell;          // store full Vector3Int — no z truncation
-        activeFires[cell] = tile;
-        return tile;
-    }
-
-    /// <summary>Called by FireTile.FullyExtinguish() to remove itself from the registry.</summary>
-    public void UnregisterFire(Vector3Int cell)
-    {
-        activeFires.Remove(cell);
-
-        if (activeFires.Count == 0)
-            onAllFiresExtinguished?.Invoke();
-    }
-
-    public bool IsBurning(Vector3Int cell) => activeFires.ContainsKey(cell);
-
-    public FireTile GetFireAt(Vector3Int cell)
-    {
-        activeFires.TryGetValue(cell, out FireTile tile);
-        return tile;
+        data.escalationCoroutine = StartCoroutine(EscalationRoutine(cell));
+        data.spreadCoroutine     = StartCoroutine(SpreadRoutine(cell));
     }
 
     /// <summary>
-    /// Finds the nearest burning FireTile within maxRadius and calls Extinguish() on it.
+    /// Reduce fire at cell by one stage. Called by firetruck extinguish.
+    /// Returns the tile that was hit, or null if no fire there.
     /// </summary>
-    public FireTile ExtinguishNearest(Vector2 worldPosition, float maxRadius)
+    public bool ExtinguishAt(Vector3Int cell)
     {
-        FireTile best     = null;
-        float    bestDist = float.MaxValue;
+        if (!_activeFires.TryGetValue(cell, out FireCellData data)) return false;
 
-        foreach (var kvp in activeFires)
+        switch (data.stage)
         {
-            Vector3 fireWorld = buildingTilemap.GetCellCenterWorld(kvp.Key);
-            float   dist      = Vector2.Distance(worldPosition, new Vector2(fireWorld.x, fireWorld.y));
+            case FireStage.Large:
+                // Stop escalation — won't re-grow after being knocked down
+                if (data.escalationCoroutine != null)
+                {
+                    StopCoroutine(data.escalationCoroutine);
+                    data.escalationCoroutine = null;
+                }
+                SetStage(cell, data, FireStage.Medium);
+                break;
 
+            case FireStage.Medium:
+                SetStage(cell, data, FireStage.Small);
+                break;
+
+            case FireStage.Small:
+                FullyExtinguish(cell, data);
+                break;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Find and extinguish the nearest fire within maxRadius of worldPosition.
+    /// Returns true if a fire was hit.
+    /// </summary>
+    public bool ExtinguishNearest(Vector2 worldPosition, float maxRadius)
+    {
+        Vector3Int bestCell = default;
+        float      bestDist = float.MaxValue;
+        bool       found    = false;
+
+        foreach (var cell in _activeFires.Keys)
+        {
+            Vector3 center = GetCellCenter(cell);
+            float   dist   = Vector2.Distance(worldPosition,
+                                              new Vector2(center.x, center.y));
             if (dist <= maxRadius && dist < bestDist)
             {
                 bestDist = dist;
-                best     = kvp.Value;
+                bestCell = cell;
+                found    = true;
             }
         }
 
-        best?.Extinguish();
+        if (found) ExtinguishAt(bestCell);
+        return found;
+    }
+
+    /// <summary>
+    /// Returns the world position of the nearest fire within radius, or null if none.
+    /// Used by FireTruck to orient the water spray VFX toward the fire.
+    /// </summary>
+    public Vector2? GetNearestFirePosition(Vector2 worldPosition, float radius)
+    {
+        Vector2? best     = null;
+        float    bestDist = float.MaxValue;
+
+        foreach (var cell in _activeFires.Keys)
+        {
+            Vector3 center = GetCellCenter(cell);
+            float   dist   = Vector2.Distance(worldPosition, new Vector2(center.x, center.y));
+
+            if (dist <= radius && dist < bestDist)
+            {
+                bestDist = dist;
+                best     = new Vector2(center.x, center.y);
+            }
+        }
+
         return best;
     }
 
     /// <summary>Returns true if any fire is within radius of worldPosition.</summary>
     public bool HasNearbyFire(Vector2 worldPosition, float radius)
     {
-        foreach (var kvp in activeFires)
+        foreach (var cell in _activeFires.Keys)
         {
-            Vector3 fireWorld = buildingTilemap.GetCellCenterWorld(kvp.Key);
-            if (Vector2.Distance(worldPosition, new Vector2(fireWorld.x, fireWorld.y)) <= radius)
+            Vector3 center = GetCellCenter(cell);
+            if (Vector2.Distance(worldPosition, new Vector2(center.x, center.y)) <= radius)
                 return true;
         }
         return false;
     }
 
-    public int ActiveFireCount => activeFires.Count;
+    public bool      IsBurningAt(Vector3Int cell) => _activeFires.ContainsKey(cell);
+    public int        ActiveFireCount              => _activeFires.Count;
+    public FireStage? GetStageAt(Vector3Int cell)  => _activeFires.TryGetValue(cell, out var d) ? d.stage : (FireStage?)null;
+
+    // -------------------------------------------------------------------------
+    // Escalation coroutine
+    // -------------------------------------------------------------------------
+
+    private IEnumerator EscalationRoutine(Vector3Int cell)
+    {
+        yield return new WaitForSeconds(smallToMediumTime);
+        if (!_activeFires.TryGetValue(cell, out FireCellData data)) yield break;
+        SetStage(cell, data, FireStage.Medium);
+
+        yield return new WaitForSeconds(mediumToLargeTime);
+        if (!_activeFires.TryGetValue(cell, out data)) yield break;
+        SetStage(cell, data, FireStage.Large);
+    }
+
+    // -------------------------------------------------------------------------
+    // Spread coroutine
+    // -------------------------------------------------------------------------
+
+    private IEnumerator SpreadRoutine(Vector3Int cell)
+    {
+        // Wait until Medium before spreading
+        while (_activeFires.TryGetValue(cell, out FireCellData d)
+               && d.stage == FireStage.Small)
+            yield return new WaitForSeconds(1f);
+
+        while (_activeFires.TryGetValue(cell, out FireCellData data)
+               && data.spreadsLeft > 0)
+        {
+            bool  isLarge  = data.stage == FireStage.Large;
+            float interval = isLarge ? spreadIntervalLarge  : spreadIntervalMedium;
+            float chance   = isLarge ? spreadChanceLarge    : spreadChanceMedium;
+
+            yield return new WaitForSeconds(interval);
+
+            if (!_activeFires.ContainsKey(cell)) yield break;
+
+            TrySpread(cell, chance);
+            data.spreadsLeft--;
+        }
+    }
+
+    private void TrySpread(Vector3Int cell, float chance)
+    {
+        // Shuffle directions for randomness
+        Vector3Int[] dirs = (Vector3Int[])CardinalDirs.Clone();
+        for (int i = dirs.Length - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (dirs[i], dirs[j]) = (dirs[j], dirs[i]);
+        }
+
+        foreach (var dir in dirs)
+        {
+            if (Random.value > chance) continue;
+
+            Vector3Int target = cell + dir;
+            if (!_activeFires.ContainsKey(target) && IsBurnable(target))
+            {
+                SpawnFireAtCell(target);
+                break;
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Stage management
+    // -------------------------------------------------------------------------
+
+    private void SetStage(Vector3Int cell, FireCellData data, FireStage newStage)
+    {
+        FireStage oldStage = data.stage;
+        data.stage         = newStage;
+        PaintFireTile(cell, newStage);
+
+        // Notify population system when a fire becomes or leaves Large stage
+        if (newStage == FireStage.Large && oldStage != FireStage.Large)
+            CityPopulation.Instance?.OnFireBecameLarge(cell);
+        else if (newStage != FireStage.Large && oldStage == FireStage.Large)
+            CityPopulation.Instance?.OnFireNoLongerLarge(cell);
+    }
+
+    private void PaintFireTile(Vector3Int cell, FireStage stage)
+    {
+        // Small + Medium go on FireBackground (behind buildings)
+        // Large goes on FireForeground (in front of buildings)
+        if (stage == FireStage.Large)
+        {
+            fireBackground.SetTile(cell, null);
+            fireForeground.SetTile(cell, largeFireTile);
+        }
+        else
+        {
+            fireForeground.SetTile(cell, null);
+            fireBackground.SetTile(cell, stage == FireStage.Small
+                                        ? smallFireTile : mediumFireTile);
+        }
+    }
+
+    private void FullyExtinguish(Vector3Int cell, FireCellData data)
+    {
+        if (data.escalationCoroutine != null) StopCoroutine(data.escalationCoroutine);
+        if (data.spreadCoroutine     != null) StopCoroutine(data.spreadCoroutine);
+
+        fireBackground.SetTile(cell, null);
+        fireForeground.SetTile(cell, null);
+
+        _activeFires.Remove(cell);
+
+        if (_activeFires.Count == 0)
+            onAllFiresExtinguished?.Invoke();
+    }
+
+    // -------------------------------------------------------------------------
+    // Burnable check
+    // -------------------------------------------------------------------------
+
+    public bool IsBurnable(Vector3Int cell)
+    {
+        if (groundTilemap   != null && groundTilemap.HasTile(cell))   return false;
+        if (sidewalkTilemap != null && sidewalkTilemap.HasTile(cell))  return false;
+
+        bool hasBuilding = buildingTilemap != null && buildingTilemap.HasTile(cell);
+        bool hasTrees    = treesTilemap    != null && treesTilemap.HasTile(cell);
+        return hasBuilding || hasTrees;
+    }
 
     // -------------------------------------------------------------------------
     // Random spawning
@@ -210,12 +430,12 @@ public class FireManager : MonoBehaviour
 
     private void SpawnRandomFire()
     {
-        if (burnableCells.Count == 0) return;
+        if (_burnableCells.Count == 0) return;
 
         for (int attempt = 0; attempt < 20; attempt++)
         {
-            Vector3Int candidate = burnableCells[Random.Range(0, burnableCells.Count)];
-            if (!activeFires.ContainsKey(candidate))
+            Vector3Int candidate = _burnableCells[Random.Range(0, _burnableCells.Count)];
+            if (!_activeFires.ContainsKey(candidate))
             {
                 SpawnFireAtCell(candidate);
                 return;
@@ -227,75 +447,32 @@ public class FireManager : MonoBehaviour
     // Helpers
     // -------------------------------------------------------------------------
 
-    /// <summary>
-    /// A cell is burnable if it has a tile on the buildings OR trees tilemap,
-    /// and is not on a fireproof layer (road, pathwalk).
-    /// </summary>
-    public bool IsBurnable(Vector3Int cell)
+    private Vector3 GetCellCenter(Vector3Int cell)
     {
-        // Fireproof layers always win
-        if (groundTilemap   != null && groundTilemap.HasTile(cell))   return false;
-        if (sidewalkTilemap != null && sidewalkTilemap.HasTile(cell))  return false;
-
-        // Burnable if it has a building or tree tile
-        bool hasBuilding = buildingTilemap != null && buildingTilemap.HasTile(cell);
-        bool hasTrees    = treesTilemap    != null && treesTilemap.HasTile(cell);
-        return hasBuilding || hasTrees;
+        // Use whichever burnable tilemap owns the cell
+        if (buildingTilemap != null && buildingTilemap.HasTile(cell))
+            return buildingTilemap.GetCellCenterWorld(cell);
+        if (treesTilemap != null && treesTilemap.HasTile(cell))
+            return treesTilemap.GetCellCenterWorld(cell);
+        // Fallback — use fireBackground tilemap which shares the same Grid
+        return fireBackground.GetCellCenterWorld(cell);
     }
-
-    /// <summary>Search outward from origin for the nearest burnable, unoccupied cell.</summary>
-    private Vector3Int FindNearestBurnableCell(Vector3Int origin, int searchRadius)
-    {
-        for (int r = 1; r <= searchRadius; r++)
-        {
-            for (int x = -r; x <= r; x++)
-            {
-                for (int y = -r; y <= r; y++)
-                {
-                    if (Mathf.Abs(x) != r && Mathf.Abs(y) != r) continue; // ring edge only
-                    Vector3Int candidate = origin + new Vector3Int(x, y, 0);
-                    // Skip already-burning cells — prevents spawning on top of existing fire
-                    if (IsBurnable(candidate) && !activeFires.ContainsKey(candidate))
-                        return candidate;
-                }
-            }
-        }
-        return Vector3Int.back; // sentinel — nothing found
-    }
-
-    private Vector3Int WorldToCell(Vector2 worldPos)
-        => buildingTilemap.WorldToCell(new Vector3(worldPos.x, worldPos.y, 0f));
 
     private void CacheBurnableCells()
     {
-        burnableCells.Clear();
+        _burnableCells.Clear();
 
-        // Scan building tilemap
         if (buildingTilemap != null)
-        {
             foreach (var pos in buildingTilemap.cellBounds.allPositionsWithin)
-                if (IsBurnable(pos) && !burnableCells.Contains(pos))
-                    burnableCells.Add(pos);
-        }
+                if (IsBurnable(pos) && !_burnableCells.Contains(pos))
+                    _burnableCells.Add(pos);
 
-        // Also scan trees tilemap
         if (treesTilemap != null)
-        {
             foreach (var pos in treesTilemap.cellBounds.allPositionsWithin)
-                if (IsBurnable(pos) && !burnableCells.Contains(pos))
-                    burnableCells.Add(pos);
-        }
+                if (IsBurnable(pos) && !_burnableCells.Contains(pos))
+                    _burnableCells.Add(pos);
 
-        Debug.Log($"[FireManager] Found {burnableCells.Count} burnable cells.");
-    }
-
-    private void ApplyFireSortingLayer(GameObject go)
-    {
-        foreach (var r in go.GetComponentsInChildren<Renderer>(true))
-        {
-            r.sortingLayerName = fireSortingLayerName;
-            r.sortingOrder     = fireSortingOrder;
-        }
+        Debug.Log($"[FireManager] {_burnableCells.Count} burnable cells cached.");
     }
 
     // -------------------------------------------------------------------------
@@ -304,10 +481,18 @@ public class FireManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        if (activeFires == null || buildingTilemap == null) return;
-        Gizmos.color = new Color(1f, 0.3f, 0f, 0.5f);
-        foreach (var cell in activeFires.Keys)
-            Gizmos.DrawCube(buildingTilemap.GetCellCenterWorld(cell), Vector3.one * 0.8f);
+        if (_activeFires == null || fireBackground == null) return;
+        foreach (var kvp in _activeFires)
+        {
+            Gizmos.color = kvp.Value.stage switch
+            {
+                FireStage.Small  => new Color(1f, 1f, 0f, 0.4f),
+                FireStage.Medium => new Color(1f, 0.5f, 0f, 0.4f),
+                FireStage.Large  => new Color(1f, 0.1f, 0f, 0.5f),
+                _                => Color.white
+            };
+            Gizmos.DrawWireCube(GetCellCenter(kvp.Key), Vector3.one);
+        }
     }
 #endif
 }

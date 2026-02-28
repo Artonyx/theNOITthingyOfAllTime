@@ -39,6 +39,8 @@ public class FireTruck : MonoBehaviour
     [Header("Visuals")]
     public SpriteRenderer selectionIndicator;
     public ParticleSystem waterSprayVFX;
+    [Tooltip("How wide the water spray fans out. 0 = straight line, 0.5 = wide cone.")]
+    [Range(0f, 1f)] public float coneSpread = 0.25f;
 
     // -------------------------------------------------------------------------
     // Private runtime
@@ -47,6 +49,7 @@ public class FireTruck : MonoBehaviour
     private AStarPathfinder   _pathfinder;
     private FiretruckOutline  _outline;
     private FiretruckAnimation _anim;
+    private Vector2            _lastMoveDir = Vector2.up; // direction truck last travelled
     private List<Vector3>   _currentPath = new List<Vector3>();
     private Coroutine       _moveCoroutine;
     private Coroutine       _extinguishCoroutine;
@@ -156,6 +159,7 @@ public class FireTruck : MonoBehaviour
             Vector2 dir = (new Vector2(waypoint.x, waypoint.y)
                          - new Vector2(transform.position.x, transform.position.y)).normalized;
             _anim?.SetMovementDirection(dir);
+            _lastMoveDir = dir; // remember for VFX orientation
 
             while (Vector3.Distance(transform.position, waypoint) > waypointThreshold)
             {
@@ -166,6 +170,7 @@ public class FireTruck : MonoBehaviour
 
             transform.position = waypoint;
         }
+
         _state = TruckState.Arrived;
         TruckHUD.Instance?.OnTruckArrived(this);
     }
@@ -180,11 +185,15 @@ public class FireTruck : MonoBehaviour
 
         while (true)
         {
-            FireTile hit = FireManager.Instance?.ExtinguishNearest(
-                new Vector2(transform.position.x, transform.position.y),
-                extinguishRadius);
+            // Re-aim spray toward current nearest fire each tick
+            PointVFXTowardNearestFire();
 
-            if (hit == null)
+            bool hit = FireManager.Instance != null &&
+                       FireManager.Instance.ExtinguishNearest(
+                           new Vector2(transform.position.x, transform.position.y),
+                           extinguishRadius);
+
+            if (!hit)
             {
                 Debug.Log("[FireTruck] No fires in range — stopping.");
                 break;
@@ -218,7 +227,87 @@ public class FireTruck : MonoBehaviour
     private void SetWaterVFX(bool active)
     {
         if (waterSprayVFX == null) return;
-        if (active) waterSprayVFX.Play();
-        else        waterSprayVFX.Stop();
+
+        if (active)
+        {
+            PointVFXTowardNearestFire();
+            waterSprayVFX.Play();
+        }
+        else
+        {
+            // Stop emitting new particles immediately and clear all existing
+            // ones so they don't drift in the last set velocity direction.
+            waterSprayVFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+            // Reset velocity over lifetime to zero so there's no residual direction
+            var vel   = waterSprayVFX.velocityOverLifetime;
+            vel.x     = new ParticleSystem.MinMaxCurve(0f);
+            vel.y     = new ParticleSystem.MinMaxCurve(0f);
+            vel.z     = new ParticleSystem.MinMaxCurve(0f);
+        }
     }
+
+    private void PointVFXTowardNearestFire()
+    {
+        if (FireManager.Instance == null) return;
+
+        Vector2 truckPos = new Vector2(transform.position.x, transform.position.y);
+        Vector2? firePos = FireManager.Instance.GetNearestFirePosition(truckPos, extinguishRadius);
+
+        Vector2 direction = firePos.HasValue
+            ? (firePos.Value - truckPos).normalized
+            : _lastMoveDir;
+
+        if (direction == Vector2.zero) return;
+
+        var main  = waterSprayVFX.main;
+        float speed = main.startSpeed.constant;
+
+        // Compute a perpendicular axis to the spray direction so we can
+        // spread particles sideways, simulating a cone without the Shape module.
+        Vector2 perp = new Vector2(-direction.y, direction.x); // 90 degree rotation
+
+        // coneSpread controls how wide the spray fans out.
+        // At 0 it's a straight line; at 1 it's very wide.
+        float spread = speed * coneSpread;
+
+        var vel   = waterSprayVFX.velocityOverLifetime;
+        vel.enabled = true;
+        vel.space   = ParticleSystemSimulationSpace.World;
+
+        // Each particle gets a random velocity between the two edges of the cone.
+        // TwoConstants mode picks a random value between min and max per particle.
+        vel.x = new ParticleSystem.MinMaxCurve(
+            direction.x * speed - perp.x * spread,
+            direction.x * speed + perp.x * spread)
+            { mode = ParticleSystemCurveMode.TwoConstants };
+        vel.y = new ParticleSystem.MinMaxCurve(
+            direction.y * speed - perp.y * spread,
+            direction.y * speed + perp.y * spread)
+            { mode = ParticleSystemCurveMode.TwoConstants };
+        vel.z = new ParticleSystem.MinMaxCurve(0f, 0f)
+            { mode = ParticleSystemCurveMode.TwoConstants };
+
+        var shape = waterSprayVFX.shape;
+        shape.enabled = false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Gizmos
+    // -------------------------------------------------------------------------
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0f, 0.5f, 1f, 0.25f);
+        Gizmos.DrawWireSphere(transform.position, extinguishRadius);
+
+        if (_currentPath == null || _currentPath.Count == 0) return;
+        Gizmos.color = Color.cyan;
+        for (int i = 0; i < _currentPath.Count - 1; i++)
+            Gizmos.DrawLine(_currentPath[i], _currentPath[i + 1]);
+        Gizmos.color = Color.yellow;
+        foreach (var pt in _currentPath)
+            Gizmos.DrawSphere(pt, 0.12f);
+    }
+#endif
 }

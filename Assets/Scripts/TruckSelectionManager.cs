@@ -68,7 +68,8 @@ public class TruckSelectionManager : MonoBehaviour
     {
         if (SelectedTruck == null) return;
         _waitingForMoveTarget = true;
-        // Optionally change cursor here
+        TruckHUD.Instance?.SetAwaitingTarget(true);
+        UIPanel.Instance?.SetAwaitingTarget(true);
     }
 
     /// <summary>[W] — stop the truck immediately wherever it is.</summary>
@@ -99,10 +100,14 @@ public class TruckSelectionManager : MonoBehaviour
         SelectedTruck?.MoveTo(worldPos);
 
         _waitingForMoveTarget = false;
+        TruckHUD.Instance?.SetAwaitingTarget(false);
+        UIPanel.Instance?.SetAwaitingTarget(false);
     }
 
     private void CancelMoveTarget()
     {
         _waitingForMoveTarget = false;
+        TruckHUD.Instance?.SetAwaitingTarget(false);
+        UIPanel.Instance?.SetAwaitingTarget(false);
     }
 }
