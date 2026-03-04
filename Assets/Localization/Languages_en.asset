@@ -204,7 +204,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17599111797571584
-    m_Localized: 'Deaths:'
+    m_Localized: 'Victims:'
     m_Metadata:
       m_Items: []
   - m_Id: 17600159576653824
@@ -238,6 +238,30 @@ MonoBehaviour:
       free access for fire trucks (no parking in front of hydrants and entrances).
       Control unauthorized burning of waste. Report hazards to the General Directorate
       \u201CFire Safety and Civil Protection.\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19201583553085440
+    m_Localized: How to assign tasks? Once you've pressed on the firetruck a panel
+      with buttons will appear. To give it a task, click a button/its specific key
+      - [Q] for moving, [W] for stopping an ongoing task and [E] for extinguishing.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19205253409701888
+    m_Localized: 'The way [Q] works is after you click the button/key, you point
+      at a spot on the map for the firetruck to go to. [E] works once you are close
+      enough to a fire and automatically extinguishes everything around the firetruck. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19239926911369216
+    m_Localized: '[W] stops the action of [Q] or [E] if they are active. If you would
+      like to freeze time to think through and assign tasks in advance, you can press
+      [space].'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19242339126902784
+    m_Localized: If a fire is left untouched, it will spread, eventually claiming
+      victims. You will only win if there are no victims and you have successfully
+      extinguished all fires on the map!
     m_Metadata:
       m_Items: []
   references:
