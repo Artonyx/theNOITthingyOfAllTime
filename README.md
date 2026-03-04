@@ -1,5 +1,5 @@
 # Fire-extinguisher
-A game by @Artonyx and @mirotoko.</br> This is a top-down strategical game about managing a fire dispatcher in different locations.</br>
+A game by [@Artonyx](https://github.com/Artonyx) and [@mirotoko](https://github.com/mirotoko).</br> This is a top-down strategical game about managing a fire dispatcher in different locations.</br>
 ### Download
 You can download it from [itch.io](https://artonyx.itch.io/fire-extinguisher) both for Windows 10+ and Linux.
 ### Credits
