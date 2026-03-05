@@ -15,10 +15,7 @@ public class pause : MonoBehaviour
     [SerializeField] private Button resumeButton = null;
     [SerializeField] private Button pauseButton  = null;
 
-    // Track whether a special screen was open last frame
     private bool _wasBlocked = false;
-
-    // -------------------------------------------------------------------------
 
     private void Awake()
     {
@@ -32,8 +29,6 @@ public class pause : MonoBehaviour
                     || winScreen.activeSelf
                     || lossScreen.activeSelf;
 
-        // Only change timeScale when the blocked state actually CHANGES,
-        // not every single frame — this is what was breaking freeze/pause.
         if (blocked && !_wasBlocked)
         {
             Time.timeScale   = 0f;
@@ -60,13 +55,11 @@ public class pause : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             FreezeTime();
     }
-
-    // -------------------------------------------------------------------------
-
+    
     void Resume()
     {
         pauseMenu.SetActive(false);
-        Time.timeScale = gameIsFrozen ? 0f : 1f; // respect freeze if active
+        Time.timeScale = gameIsFrozen ? 0f : 1f;
         gameIsPaused   = false;
         Debug.Log("Resumed");
     }
@@ -81,7 +74,7 @@ public class pause : MonoBehaviour
 
     void FreezeTime()
     {
-        if (gameIsPaused) return; // can't freeze while paused
+        if (gameIsPaused) return;
 
         if (gameIsFrozen)
         {

@@ -4,17 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-/// <summary>
-/// SETUP ADDITION: Add a CanvasGroup component to your hudPanel GameObject.
-/// Everything else stays the same.
-/// </summary>
 public class TruckHUD : MonoBehaviour
 {
     public static TruckHUD Instance { get; private set; }
-
-    // -------------------------------------------------------------------------
-    // Inspector
-    // -------------------------------------------------------------------------
 
     [Header("Panel")]
     public GameObject hudPanel;
@@ -46,26 +38,17 @@ public class TruckHUD : MonoBehaviour
     public TextMeshProUGUI extinguishLabel;
     public TextMeshProUGUI truckNameLabel;
 
-    // -------------------------------------------------------------------------
-    // Private
-    // -------------------------------------------------------------------------
-
     private CanvasGroup _canvasGroup;
     private Coroutine   _stopFlashCoroutine;
     private Coroutine   _fadeCoroutine;
     private bool        _isHovered         = false;
-    private bool        _isAwaitingTarget  = false; // true while waiting for map click
-
-    // -------------------------------------------------------------------------
-    // Unity lifecycle
-    // -------------------------------------------------------------------------
+    private bool        _isAwaitingTarget  = false;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
 
-        // Get or add CanvasGroup on the panel — controls alpha + interactability
         if (hudPanel != null)
         {
             _canvasGroup = hudPanel.GetComponent<CanvasGroup>();
@@ -86,35 +69,26 @@ public class TruckHUD : MonoBehaviour
     private void Update()
     {
         if (hudPanel == null || !hudPanel.activeSelf) return;
-        if (_isAwaitingTarget) return; // block keyboard shortcuts during targeting too
+        if (_isAwaitingTarget) return;
 
         if (Input.GetKeyDown(KeyCode.Q)) OnMoveClicked();
         if (Input.GetKeyDown(KeyCode.W)) OnStopClicked();
         if (Input.GetKeyDown(KeyCode.E)) OnExtinguishClicked();
     }
 
-    // -------------------------------------------------------------------------
-    // Pointer hover — IPointerEnterHandler / IPointerExitHandler
-    // Note: your hudPanel needs a Graphic (Image) component to receive raycasts.
-    // -------------------------------------------------------------------------
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         _isHovered = true;
-        if (!_isAwaitingTarget) // don't override targeting fade
+        if (!_isAwaitingTarget)
             FadeTo(hoverAlpha);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         _isHovered = false;
-        if (!_isAwaitingTarget) // don't restore if locked out
+        if (!_isAwaitingTarget)
             FadeTo(normalAlpha);
     }
-
-    // -------------------------------------------------------------------------
-    // Show / Hide
-    // -------------------------------------------------------------------------
 
     public void ShowForTruck(FireTruck truck)
     {
@@ -126,7 +100,6 @@ public class TruckHUD : MonoBehaviour
         SetAwaitingTarget(false);
         hudPanel?.SetActive(true);
 
-        // Start fully opaque
         if (_canvasGroup != null) _canvasGroup.alpha = normalAlpha;
     }
 
@@ -137,33 +110,23 @@ public class TruckHUD : MonoBehaviour
         hudPanel?.SetActive(false);
     }
 
-    // -------------------------------------------------------------------------
-    // Awaiting move target — lock out the HUD while player clicks the map
-    // -------------------------------------------------------------------------
-
     public void SetAwaitingTarget(bool awaiting)
     {
         _isAwaitingTarget = awaiting;
 
         if (_canvasGroup != null)
         {
-            // Non-interactable and blocks no raycasts while awaiting target —
-            // clicks pass through to the map underneath
             _canvasGroup.interactable   = !awaiting;
             _canvasGroup.blocksRaycasts = !awaiting;
         }
 
-        // Fade to semi-transparent while locked, restore when done
         FadeTo(awaiting ? hoverAlpha : (_isHovered ? hoverAlpha : normalAlpha));
     }
 
-    // -------------------------------------------------------------------------
-    // State transitions called by FireTruck
-    // -------------------------------------------------------------------------
 
     public void OnTruckMoving()
     {
-        SetAwaitingTarget(false); // targeting done — truck is now moving
+        SetAwaitingTarget(false);
         UIPanel.Instance?.SetAwaitingTarget(false);
         SetButtonColor(moveButton,       true);
         SetButtonColor(stopButton,       false);
@@ -195,10 +158,6 @@ public class TruckHUD : MonoBehaviour
         RefreshExtinguishInteractable(truck);
     }
 
-    // -------------------------------------------------------------------------
-    // Extinguish interactability
-    // -------------------------------------------------------------------------
-
     public void RefreshExtinguishInteractable(FireTruck truck)
     {
         if (extinguishButton == null) return;
@@ -214,10 +173,6 @@ public class TruckHUD : MonoBehaviour
             extinguishLabel.alpha = nearFire ? 1f : 0.4f;
     }
 
-    // -------------------------------------------------------------------------
-    // Button handlers
-    // -------------------------------------------------------------------------
-
     private void OnCancelClicked()
     {
         TruckSelectionManager.Instance?.Deselect();
@@ -227,7 +182,7 @@ public class TruckHUD : MonoBehaviour
     private void OnMoveClicked()
     {
         SetButtonColor(moveButton, true);
-        SetAwaitingTarget(true);  // lock HUD while player picks a spot
+        SetAwaitingTarget(true);
         TruckSelectionManager.Instance?.BeginMoveTargeting();
     }
 
@@ -241,10 +196,6 @@ public class TruckHUD : MonoBehaviour
         if (extinguishButton != null && !extinguishButton.interactable) return;
         TruckSelectionManager.Instance?.CommandExtinguish();
     }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
 
     private IEnumerator StopFlashRoutine()
     {

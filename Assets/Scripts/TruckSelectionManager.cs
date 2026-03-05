@@ -1,11 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Singleton that tracks which firetruck is currently selected
-/// and routes map-click and keyboard commands to it.
-///
-/// Attach to a persistent GameObject (e.g. "GameManager").
-/// </summary>
 public class TruckSelectionManager : MonoBehaviour
 {
     public static TruckSelectionManager Instance { get; private set; }
@@ -15,9 +9,6 @@ public class TruckSelectionManager : MonoBehaviour
     private bool   _waitingForMoveTarget = false;
     private Camera _mainCamera;
 
-    // -------------------------------------------------------------------------
-    // Unity lifecycle
-    // -------------------------------------------------------------------------
 
     private void Awake()
     {
@@ -37,11 +28,6 @@ public class TruckSelectionManager : MonoBehaviour
             CancelMoveTarget();
     }
 
-    // -------------------------------------------------------------------------
-    // Public API
-    // -------------------------------------------------------------------------
-
-    /// <summary>Select a truck — deselects the previous one and shows the HUD.</summary>
     public void SelectTruck(FireTruck truck)
     {
         if (SelectedTruck == truck) return;
@@ -54,7 +40,6 @@ public class TruckSelectionManager : MonoBehaviour
         TruckHUD.Instance?.ShowForTruck(truck);
     }
 
-    /// <summary>Deselect all trucks and hide the HUD.</summary>
     public void Deselect()
     {
         SelectedTruck?.OnDeselected();
@@ -63,7 +48,6 @@ public class TruckSelectionManager : MonoBehaviour
         TruckHUD.Instance?.Hide();
     }
 
-    /// <summary>[Q] — enter move-targeting mode; next map click sends the truck there.</summary>
     public void BeginMoveTargeting()
     {
         if (SelectedTruck == null) return;
@@ -72,21 +56,15 @@ public class TruckSelectionManager : MonoBehaviour
         UIPanel.Instance?.SetAwaitingTarget(true);
     }
 
-    /// <summary>[W] — stop the truck immediately wherever it is.</summary>
     public void CommandStop()
     {
         SelectedTruck?.StopTruck();
     }
 
-    /// <summary>[E] — begin extinguishing fires in range.</summary>
     public void CommandExtinguish()
     {
         SelectedTruck?.StartExtinguishing();
     }
-
-    // -------------------------------------------------------------------------
-    // Private helpers
-    // -------------------------------------------------------------------------
 
     private void HandleMapClick()
     {

@@ -2,10 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 
-/// <summary>
-/// Countdown timer displayed as MM:SS.
-/// Attach to any GameObject and assign your TMP text object.
-/// </summary>
 public class CountdownTimer : MonoBehaviour
 {
     [Header("Settings")]
@@ -24,8 +20,6 @@ public class CountdownTimer : MonoBehaviour
     private float _timeRemaining;
     private bool  _running = true;
 
-    // -------------------------------------------------------------------------
-
     private void Start()
     {
         _timeRemaining = totalTime;
@@ -35,8 +29,6 @@ public class CountdownTimer : MonoBehaviour
     private void Update()
     {
         if (!_running) return;
-
-        // Respect pause/freeze — timeScale 0 stops deltaTime
         _timeRemaining -= Time.deltaTime;
 
         if (_timeRemaining <= 0f)
@@ -59,18 +51,13 @@ public class CountdownTimer : MonoBehaviour
         UpdateDisplay();
     }
 
-    // -------------------------------------------------------------------------
-
     private void UpdateDisplay()
     {
         int minutes = Mathf.FloorToInt(_timeRemaining / 60f);
         int seconds = Mathf.FloorToInt(_timeRemaining % 60f);
         timerText.text = $"{minutes:00}:{seconds:00}";
     }
-
-    // -------------------------------------------------------------------------
-    // Public API — call these from other scripts if needed
-
+    
     public void StopTimer()  => _running = false;
     public void StartTimer() => _running = true;
     public void ResetTimer() { _timeRemaining = totalTime; _running = true; }

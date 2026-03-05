@@ -2,10 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-/// <summary>
-/// Attach to your UI parent GameObject (timer + death counter + pause button).
-/// Requires a CanvasGroup component on the same GameObject.
-/// </summary>
 [RequireComponent(typeof(CanvasGroup))]
 public class UIPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -50,10 +46,6 @@ public class UIPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         RefreshState();
     }
 
-    /// <summary>
-    /// Single source of truth — always call this after any state change.
-    /// Awaiting target always wins over hover.
-    /// </summary>
     private void RefreshState()
     {
         if (_isAwaitingTarget)

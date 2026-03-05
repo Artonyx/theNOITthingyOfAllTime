@@ -2,23 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-/// <summary>
-/// Spawns and manages smoke particle systems at each burning fire cell.
-/// Smoke intensity scales with fire stage.
-///
-/// SETUP:
-///  1. Attach to any persistent GameObject.
-///  2. Assign your smoke sprite to smokeSprite.
-///  3. Assign your fireBackground tilemap so smoke positions are aligned.
-///  4. FireManager calls UpdateSmoke() whenever a cell changes stage.
-/// </summary>
 public class SmokeManager : MonoBehaviour
 {
     public static SmokeManager Instance { get; private set; }
-
-    // -------------------------------------------------------------------------
-    // Inspector
-    // -------------------------------------------------------------------------
 
     [Header("Smoke Sprite")]
     public Sprite smokeSprite;
@@ -47,16 +33,10 @@ public class SmokeManager : MonoBehaviour
     public float drift         = 0.1f;
     public Color smokeColor    = new Color(0.3f, 0.3f, 0.3f, 0.5f);
 
-    // -------------------------------------------------------------------------
-    // Runtime
-    // -------------------------------------------------------------------------
 
     private Dictionary<Vector3Int, ParticleSystem> _smokeParticles
         = new Dictionary<Vector3Int, ParticleSystem>();
 
-    // -------------------------------------------------------------------------
-    // Unity lifecycle
-    // -------------------------------------------------------------------------
 
     private void Awake()
     {
@@ -64,11 +44,6 @@ public class SmokeManager : MonoBehaviour
         Instance = this;
     }
 
-    // -------------------------------------------------------------------------
-    // Public API — called by FireManager
-    // -------------------------------------------------------------------------
-
-    /// <summary>Spawn smoke at cell or update its intensity if already exists.</summary>
     public void UpdateSmoke(Vector3Int cell, FireManager.FireStage stage)
     {
         if (!_smokeParticles.TryGetValue(cell, out ParticleSystem ps) || ps == null)
@@ -77,14 +52,12 @@ public class SmokeManager : MonoBehaviour
         SetEmissionRate(ps, stage);
     }
 
-    /// <summary>Remove smoke from a cell when fire is extinguished.</summary>
     public void RemoveSmoke(Vector3Int cell)
     {
         if (!_smokeParticles.TryGetValue(cell, out ParticleSystem ps)) return;
 
         if (ps != null)
         {
-            // Stop emitting but let existing particles finish
             var emission = ps.emission;
             emission.enabled = false;
             Destroy(ps.gameObject, ps.main.startLifetime.constant + 0.5f);
@@ -93,17 +66,12 @@ public class SmokeManager : MonoBehaviour
         _smokeParticles.Remove(cell);
     }
 
-    // -------------------------------------------------------------------------
-    // Setup
-    // -------------------------------------------------------------------------
-
     private ParticleSystem SpawnSmoke(Vector3Int cell)
     {
         Vector3 worldPos = referenceTilemap != null
             ? referenceTilemap.GetCellCenterWorld(cell)
             : new Vector3(cell.x, cell.y, 0f);
 
-        // Offset smoke slightly above the tile center so it rises from the top
         worldPos.y += 0.3f;
 
         GameObject go = new GameObject($"Smoke_{cell.x}_{cell.y}");
@@ -112,7 +80,6 @@ public class SmokeManager : MonoBehaviour
 
         ParticleSystem ps = go.AddComponent<ParticleSystem>();
 
-        // ── Main module ──────────────────────────────────────────────────────
         var main           = ps.main;
         main.loop          = true;
         main.playOnAwake   = true;
@@ -123,18 +90,15 @@ public class SmokeManager : MonoBehaviour
         main.simulationSpace = ParticleSystemSimulationSpace.World;
         main.maxParticles  = 50;
 
-        // ── Emission ─────────────────────────────────────────────────────────
         var emission       = ps.emission;
         emission.enabled   = true;
         emission.rateOverTime = emissionRateSmall;
 
-        // ── Shape — small cone so smoke spreads slightly ──────────────────────
         var shape          = ps.shape;
         shape.enabled      = true;
         shape.shapeType    = ParticleSystemShapeType.Circle;
         shape.radius       = 0.1f;
 
-        // ── Velocity over lifetime — rises up with slight sideways drift ──────
         var vel            = ps.velocityOverLifetime;
         vel.enabled        = true;
         vel.space          = ParticleSystemSimulationSpace.World;
@@ -142,7 +106,6 @@ public class SmokeManager : MonoBehaviour
         vel.y              = new ParticleSystem.MinMaxCurve(riseSpeed, riseSpeed * 1.5f);
         vel.z              = new ParticleSystem.MinMaxCurve(0f);
 
-        // ── Size over lifetime — grows as it rises ────────────────────────────
         var sizeOverLife   = ps.sizeOverLifetime;
         sizeOverLife.enabled = true;
         AnimationCurve growCurve = new AnimationCurve(
@@ -150,7 +113,6 @@ public class SmokeManager : MonoBehaviour
             new Keyframe(1f, 1.5f));
         sizeOverLife.size  = new ParticleSystem.MinMaxCurve(1f, growCurve);
 
-        // ── Alpha over lifetime — fades out at top ────────────────────────────
         var colorOverLife  = ps.colorOverLifetime;
         colorOverLife.enabled = true;
         Gradient gradient  = new Gradient();
@@ -161,7 +123,6 @@ public class SmokeManager : MonoBehaviour
                                       new GradientAlphaKey(0f,           1f) });
         colorOverLife.color = gradient;
 
-        // ── Renderer — use smoke sprite ───────────────────────────────────────
         var renderer              = go.GetComponent<ParticleSystemRenderer>();
         renderer.renderMode       = ParticleSystemRenderMode.Billboard;
         renderer.sortingLayerName = smokeSortingLayer;
@@ -169,10 +130,8 @@ public class SmokeManager : MonoBehaviour
 
         if (smokeSprite != null)
         {
-            // Sprites/Default handles transparency correctly in all render pipelines
             Material mat      = new Material(Shader.Find("Sprites/Default"));
             mat.mainTexture   = smokeSprite.texture;
-            // Enable alpha blending so transparent pixels are see-through
             mat.SetInt("_SrcBlend",  (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
             mat.SetInt("_DstBlend",  (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
             mat.SetInt("_ZWrite",    0);
@@ -182,7 +141,6 @@ public class SmokeManager : MonoBehaviour
         }
         else
         {
-            // No sprite assigned — use a default transparent particle material
             renderer.material = new Material(Shader.Find("Sprites/Default"));
         }
 
