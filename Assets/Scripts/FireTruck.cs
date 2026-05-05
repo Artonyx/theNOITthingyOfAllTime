@@ -35,7 +35,7 @@ public class FireTruck : MonoBehaviour
 
     private void Awake()
     {
-        _pathfinder = FindObjectOfType<AStarPathfinder>();
+        _pathfinder = FindFirstObjectByType<AStarPathfinder>();
         _outline    = GetComponent<FiretruckOutline>();
         _anim       = GetComponent<FiretruckAnimation>();
         if (_pathfinder == null)

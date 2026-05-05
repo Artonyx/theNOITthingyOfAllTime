@@ -291,7 +291,10 @@ public class FireManager : MonoBehaviour
         PaintFireTile(cell, newStage);
         SmokeManager.Instance?.UpdateSmoke(cell, newStage);
         if (newStage == FireStage.Large && oldStage != FireStage.Large)
+        {
+            CitizenSpawner.Instance?.HandleLargeFire(cell);
             CityPopulation.Instance?.OnFireBecameLarge(cell);
+        }
         else if (newStage != FireStage.Large && oldStage == FireStage.Large)
             CityPopulation.Instance?.OnFireNoLongerLarge(cell);
     }
