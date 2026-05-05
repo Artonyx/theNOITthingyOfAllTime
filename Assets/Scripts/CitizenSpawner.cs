@@ -104,6 +104,7 @@ public class CitizenSpawner : MonoBehaviour
             citizen.Initialize(
                 sidewalkTilemap,
                 crosswalkTilemap,
+                FireManager.Instance != null ? FireManager.Instance.treesTilemap : null,
                 FireManager.Instance,
                 citizenMoveSpeed,
                 citizenDecisionInterval,
