@@ -42506,11 +42506,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1146084410072772097, guid: a572131840c69e943802aa338ad2f727, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.00175
+      value: -9.64
       objectReference: {fileID: 0}
     - target: {fileID: 1146084410072772097, guid: a572131840c69e943802aa338ad2f727, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.65668
+      value: 0.451
       objectReference: {fileID: 0}
     - target: {fileID: 1146084410072772097, guid: a572131840c69e943802aa338ad2f727, type: 3}
       propertyPath: m_LocalPosition.z
@@ -42720,8 +42720,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Citizen
   moveSpeed: 1.8
   decisionInterval: 0.8
+  destinationIdlePause: 0.45
   waypointThreshold: 0.03
   fireAvoidDistance: 2.2
+  minSafeFireDistanceTiles: 5
+  maxSearchDepth: 24
+  minDestinationStepsFromCurrent: 4
 --- !u!61 &4870389878802191502
 BoxCollider2D:
   m_ObjectHideFlags: 0
