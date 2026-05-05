@@ -60,5 +60,8 @@ TagManager:
   - name: Vehicles
     uniqueID: 1693742623
     locked: 0
+  - name: People
+    uniqueID: 3234628091
+    locked: 0
   m_RenderingLayers:
   - Default
