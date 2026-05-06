@@ -103,6 +103,11 @@ public class CameraPanZoomController : MonoBehaviour
 
     private void HandleZoom()
     {
+        if (IsZoomBlocked())
+        {
+            return;
+        }
+
         float scroll = Input.mouseScrollDelta.y;
         if (Mathf.Abs(scroll) < Mathf.Epsilon)
         {
@@ -304,6 +309,11 @@ public class CameraPanZoomController : MonoBehaviour
         Vector3 world = _camera.ScreenToWorldPoint(mouse);
         world.z = transform.position.z;
         return world;
+    }
+
+    private static bool IsZoomBlocked()
+    {
+        return pause.gameIsPaused;
     }
 
     private static void AddIfNotNull(List<Tilemap> list, Tilemap tilemap)
