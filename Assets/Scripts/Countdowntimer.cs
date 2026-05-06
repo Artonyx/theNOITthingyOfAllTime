@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
@@ -41,7 +42,11 @@ public class CountdownTimer : MonoBehaviour
             bool hasFires    = FireManager.Instance    != null && FireManager.Instance.ActiveFireCount > 0;
 
             if (!hasDeaths && !hasFires)
+            {
+                if (SceneManager.GetActiveScene().name == "level1")
+                    sceneManager.UnlockLevel2();
                 onTimerWin?.Invoke();
+            }
             else
                 onTimerLoss?.Invoke();
 

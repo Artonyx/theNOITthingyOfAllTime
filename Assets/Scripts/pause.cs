@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class pause : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class pause : MonoBehaviour
 
     [SerializeField] private Button resumeButton = null;
     [SerializeField] private Button pauseButton  = null;
+    [SerializeField] private Button skipTutorialToLevel2Button = null;
 
     private bool _wasBlocked = false;
 
@@ -21,6 +23,17 @@ public class pause : MonoBehaviour
     {
         resumeButton?.onClick.AddListener(Resume);
         pauseButton?.onClick.AddListener(Pause);
+
+        if (skipTutorialToLevel2Button == null && tutorialScreen != null)
+        {
+            Transform skipTransform = tutorialScreen.transform.Find("skipToLevel2Button");
+            if (skipTransform != null)
+            {
+                skipTutorialToLevel2Button = skipTransform.GetComponent<Button>();
+            }
+        }
+
+        skipTutorialToLevel2Button?.onClick.AddListener(SkipTutorialToLevel2);
     }
 
     private void Update()
@@ -88,5 +101,15 @@ public class pause : MonoBehaviour
             gameIsFrozen   = true;
             Debug.Log("Frozen!");
         }
+    }
+
+    public void SkipTutorialToLevel2()
+    {
+        sceneManager.UnlockLevel2();
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+        gameIsFrozen = false;
+        cannotChangeState = false;
+        SceneManager.LoadScene("level2");
     }
 }
