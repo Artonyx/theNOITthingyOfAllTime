@@ -211,6 +211,10 @@ MonoBehaviour:
     m_Key: tutorial6
     m_Metadata:
       m_Items: []
+  - m_Id: 42027100878569472
+    m_Key: water resource
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -264,6 +264,10 @@ MonoBehaviour:
       extinguished all fires on the map!
     m_Metadata:
       m_Items: []
+  - m_Id: 42027100878569472
+    m_Localized: 'Water resource:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
