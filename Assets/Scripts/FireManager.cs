@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,6 +17,10 @@ public class FireManager : MonoBehaviour
     [Header("Burnable Tilemaps")]
     public Tilemap buildingTilemap;
     public Tilemap treesTilemap;
+    [Tooltip("Optional dedicated grass tilemap for parks/green areas.")]
+    public Tilemap grassTilemap;
+    [Tooltip("Optional tilemap for crosswalk tiles (never burnable).")]
+    public Tilemap crosswalkTilemap;
     [Tooltip("Initial fires spawn on random cells from this tilemap.")]
     public Tilemap windowsTilemap;
 
@@ -82,6 +87,7 @@ public class FireManager : MonoBehaviour
 
     private void Start()
     {
+        AutoResolveOptionalTilemaps();
         CacheBurnableCells();
 
         SpawnInitialFires();
@@ -330,10 +336,18 @@ public class FireManager : MonoBehaviour
     }
     public bool IsBurnable(Vector3Int cell)
     {
+        bool hasSidewalk = sidewalkTilemap != null && sidewalkTilemap.HasTile(cell);
+        bool hasCrosswalk = crosswalkTilemap != null && crosswalkTilemap.HasTile(cell);
+        if (hasSidewalk || hasCrosswalk)
+        {
+            return false;
+        }
+
         bool hasBuilding = buildingTilemap != null && buildingTilemap.HasTile(cell);
         bool hasTrees    = treesTilemap    != null && treesTilemap.HasTile(cell);
-        if (hasBuilding || hasTrees) return true;
-        return false;
+        bool hasGrass = IsGrassCell(cell);
+
+        return hasBuilding || hasTrees || hasGrass;
     }
 
     private IEnumerator RandomSpawnRoutine()
@@ -387,6 +401,88 @@ public class FireManager : MonoBehaviour
                 if (IsBurnable(pos) && !_burnableCells.Contains(pos))
                     _burnableCells.Add(pos);
 
+        if (grassTilemap != null)
+            foreach (var pos in grassTilemap.cellBounds.allPositionsWithin)
+                if (IsBurnable(pos) && !_burnableCells.Contains(pos))
+                    _burnableCells.Add(pos);
+
         Debug.Log($"[FireManager] {_burnableCells.Count} burnable cells cached.");
+    }
+
+    private bool IsGrassCell(Vector3Int cell)
+    {
+        if (grassTilemap != null)
+        {
+            return grassTilemap.HasTile(cell);
+        }
+
+        if (groundTilemap == null || !groundTilemap.HasTile(cell))
+        {
+            return false;
+        }
+
+        TileBase groundTile = groundTilemap.GetTile(cell);
+        if (groundTile == null)
+        {
+            return false;
+        }
+
+        return IsExplicitGrassTileName(groundTile.name);
+    }
+
+    private void AutoResolveOptionalTilemaps()
+    {
+        Tilemap[] tilemaps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
+        foreach (Tilemap tilemap in tilemaps)
+        {
+            if (tilemap == null) continue;
+            string nameLower = tilemap.gameObject.name.ToLowerInvariant();
+            if (crosswalkTilemap == null && nameLower.Contains("crosswalk"))
+            {
+                crosswalkTilemap = tilemap;
+            }
+
+            if (grassTilemap == null && nameLower.Contains("grass"))
+            {
+                grassTilemap = tilemap;
+            }
+
+            if (grassTilemap == null && nameLower.Contains("park"))
+            {
+                grassTilemap = tilemap;
+            }
+        }
+    }
+
+    private static bool IsExplicitGrassTileName(string tileName)
+    {
+        if (string.IsNullOrEmpty(tileName))
+        {
+            return false;
+        }
+
+        const string prefix = "tileset_";
+        if (!tileName.StartsWith(prefix))
+        {
+            return false;
+        }
+
+        string numberPart = tileName.Substring(prefix.Length);
+        if (!int.TryParse(numberPart, NumberStyles.Integer, CultureInfo.InvariantCulture, out int id))
+        {
+            return false;
+        }
+
+        return IsInGrassRange(id);
+    }
+
+    private static bool IsInGrassRange(int id)
+    {
+        return (id >= 50 && id <= 56)
+            || (id >= 61 && id <= 66)
+            || (id >= 73 && id <= 78)
+            || (id >= 85 && id <= 90)
+            || (id >= 95 && id <= 100)
+            || (id >= 105 && id <= 110);
     }
 }

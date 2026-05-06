@@ -52,10 +52,17 @@ public class CitizenSpawner : MonoBehaviour
 
     public void HandleLargeFire(Vector3Int fireCell)
     {
+        Tilemap windowsTilemap = FireManager.Instance != null ? FireManager.Instance.windowsTilemap : null;
+        if (windowsTilemap == null || !windowsTilemap.HasTile(fireCell))
+        {
+            // Only window fires should affect the human counter.
+            return;
+        }
+
         Citizen targetCitizen = FindCitizenByWindowCell(fireCell);
         if (targetCitizen == null)
         {
-            targetCitizen = FindClosestAliveCitizen(fireCell);
+            targetCitizen = FindNearestWindowMappedCitizen(fireCell);
         }
         targetCitizen?.Die();
     }
@@ -137,20 +144,20 @@ public class CitizenSpawner : MonoBehaviour
         return null;
     }
 
-    private Citizen FindClosestAliveCitizen(Vector3Int fireCell)
+    private Citizen FindNearestWindowMappedCitizen(Vector3Int fireCell)
     {
         Citizen best = null;
-        float bestDistance = float.MaxValue;
-        Vector3 fireWorld = GetCellCenter(fireCell);
+        int bestDistance = int.MaxValue;
 
         foreach (Citizen citizen in _spawnedCitizens)
         {
-            if (citizen == null || !citizen.IsAlive)
+            if (citizen == null || !citizen.IsAlive || !citizen.HasHomeWindow)
             {
                 continue;
             }
 
-            float distance = Vector3.Distance(citizen.transform.position, fireWorld);
+            int distance = Mathf.Abs(citizen.HomeWindowCell.x - fireCell.x)
+                         + Mathf.Abs(citizen.HomeWindowCell.y - fireCell.y);
             if (distance < bestDistance)
             {
                 bestDistance = distance;
