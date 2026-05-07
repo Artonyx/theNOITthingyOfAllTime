@@ -215,6 +215,18 @@ MonoBehaviour:
     m_Key: water resource
     m_Metadata:
       m_Items: []
+  - m_Id: 42189858689417216
+    m_Key: what would you like to do with this fire extinguishing helicopter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42190882519023616
+    m_Key: recharge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42192024267292672
+    m_Key: skip level
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
