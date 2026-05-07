@@ -677,6 +677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 381045696}
   - component: {fileID: 381045695}
+  - component: {fileID: 381045697}
   - component: {fileID: 381045694}
   - component: {fileID: 381045693}
   - component: {fileID: 381045692}
@@ -828,6 +829,45 @@ MonoBehaviour:
   buildingTilemap: {fileID: 1162594733}
   sidewalkTilemap: {fileID: 0}
   allowDiagonals: 0
+--- !u!114 &381045697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381045689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911fe39e48b884342b90caf23be38051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireManager
+  fireBackground: {fileID: 237791214}
+  fireForeground: {fileID: 461956162}
+  buildingTilemap: {fileID: 1162594733}
+  treesTilemap: {fileID: 1162594733}
+  grassTilemap: {fileID: 1190203744}
+  crosswalkTilemap: {fileID: 0}
+  windowsTilemap: {fileID: 1162594733}
+  groundTilemap: {fileID: 586430909}
+  sidewalkTilemap: {fileID: 0}
+  smallFireTile: {fileID: 11400000, guid: 41d8ff9b453d61898b342d4948103e58, type: 2}
+  mediumFireTile: {fileID: 11400000, guid: f72ccc635ca2ab48e8c69c4253d00c82, type: 2}
+  largeFireTile: {fileID: 11400000, guid: df0e8e0cf18a4d4d1ba001a3d48e556d, type: 2}
+  initialFireCount: 1
+  enableRandomSpawning: 1
+  firstSpawnDelay: 15
+  spawnInterval: 25
+  firesPerSpawn: 1
+  smallToMediumTime: 8
+  mediumToLargeTime: 10
+  spreadIntervalMedium: 12
+  spreadIntervalLarge: 4
+  maxSpreads: 4
+  spreadChanceMedium: 0.3
+  spreadChanceLarge: 0.7
+  onAllFiresExtinguished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &381045696
 Transform:
   m_ObjectHideFlags: 0
@@ -34874,9 +34914,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1580964069}
+  - component: {fileID: 2000000002}
   - component: {fileID: 1580964068}
   - component: {fileID: 1580964070}
   - component: {fileID: 2000000001}
+  - component: {fileID: 2000000003}
   m_Layer: 0
   m_Name: Helicopter
   m_TagString: Untagged
@@ -34958,6 +35000,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -136.106}
+--- !u!95 &2000000002
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580964067}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 33333333333333333333333333333333, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &1580964070
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -35027,6 +35091,18 @@ MonoBehaviour:
   selectionIndicator: {fileID: 0}
   waterSprayVFX: {fileID: 0}
   coneSpread: 0.15
+--- !u!114 &2000000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580964067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1a2b3c4d5e60718293a4b5c6d7e8f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1589553360 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8174130949014384027, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
@@ -35421,29 +35497,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9017019459781999769, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
   m_PrefabInstance: {fileID: 1475883003}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580964067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b4d7a1b3f6d4c2e8a9c1d2e3f4a5b6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _state: 0
-  flySpeed: 6
-  waypointThreshold: 0.05
-  extinguishRadius: 2
-  extinguishInterval: 0.9
-  maxWater: 8
-  _currentWater: 8
-  rechargeKey: 114
-  selectionIndicator: {fileID: 0}
-  waterSprayVFX: {fileID: 0}
-  coneSpread: 0.15
 --- !u!1 &2071671115
 GameObject:
   m_ObjectHideFlags: 0
