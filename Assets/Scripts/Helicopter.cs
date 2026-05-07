@@ -15,6 +15,7 @@ public class Helicopter : MonoBehaviour, ISelectableUnit, IWaterRechargeable
     public float waypointThreshold = 0.05f;
 
     [Header("Extinguishing")]
+    [Tooltip("Helicopter can only extinguish within a very small radius (2 tiles).")]
     public float extinguishRadius = 2f;
     public float extinguishInterval = 0.9f;
     public float ExtinguishRadius => extinguishRadius;
@@ -32,12 +33,13 @@ public class Helicopter : MonoBehaviour, ISelectableUnit, IWaterRechargeable
     public SpriteRenderer selectionIndicator;
     public ParticleSystem waterSprayVFX;
 
-    private Vector2 _lastMoveDir = Vector2.up;
+    private HelicopterOutline _outline;
     private Coroutine _moveCoroutine;
     private Coroutine _extinguishCoroutine;
 
     private void Awake()
     {
+        _outline = GetComponent<HelicopterOutline>();
         SetSelectionIndicator(false);
 
         if (maxWater <= 0) maxWater = 1;
@@ -59,6 +61,7 @@ public class Helicopter : MonoBehaviour, ISelectableUnit, IWaterRechargeable
     {
         _state = HelicopterState.Selected;
         SetSelectionIndicator(true);
+        _outline?.ShowOutline();
     }
 
     public void OnDeselected()
@@ -66,6 +69,7 @@ public class Helicopter : MonoBehaviour, ISelectableUnit, IWaterRechargeable
         if (_state == HelicopterState.Selected)
             _state = HelicopterState.Idle;
         SetSelectionIndicator(false);
+        _outline?.HideOutline();
     }
 
     public void MoveTo(Vector3 worldDestination)
