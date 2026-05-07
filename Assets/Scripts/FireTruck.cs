@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class FireTruck : MonoBehaviour
+public class FireTruck : MonoBehaviour, ISelectableUnit
 {
     public enum TruckState { Idle, Selected, Moving, Arrived, Extinguishing }
 
@@ -18,6 +18,8 @@ public class FireTruck : MonoBehaviour
     [Header("Extinguishing")]
     public float extinguishRadius   = 1.5f;
     public float extinguishInterval = 0.8f;
+    public float ExtinguishRadius => extinguishRadius;
+    public Transform Transform => transform;
 
     [Header("Visuals")]
     public SpriteRenderer selectionIndicator;
@@ -96,6 +98,8 @@ public class FireTruck : MonoBehaviour
         _state = TruckState.Arrived;
         TruckHUD.Instance?.OnTruckStopped(this);
     }
+
+    public void StopUnit() => StopTruck();
 
     public void StartExtinguishing()
     {

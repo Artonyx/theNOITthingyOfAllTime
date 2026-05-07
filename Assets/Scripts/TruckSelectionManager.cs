@@ -4,7 +4,7 @@ public class TruckSelectionManager : MonoBehaviour
 {
     public static TruckSelectionManager Instance { get; private set; }
 
-    public FireTruck SelectedTruck { get; private set; }
+    public ISelectableUnit SelectedUnit { get; private set; }
 
     private bool   _waitingForMoveTarget = false;
     private Camera _mainCamera;
@@ -28,29 +28,31 @@ public class TruckSelectionManager : MonoBehaviour
             CancelMoveTarget();
     }
 
-    public void SelectTruck(FireTruck truck)
-    {
-        if (SelectedTruck == truck) return;
+    public void SelectTruck(FireTruck truck) => SelectUnit(truck);
 
-        SelectedTruck?.OnDeselected();
-        SelectedTruck = truck;
-        SelectedTruck.OnSelected();
+    public void SelectUnit(ISelectableUnit unit)
+    {
+        if (SelectedUnit == unit) return;
+
+        SelectedUnit?.OnDeselected();
+        SelectedUnit = unit;
+        SelectedUnit?.OnSelected();
 
         _waitingForMoveTarget = false;
-        TruckHUD.Instance?.ShowForTruck(truck);
+        TruckHUD.Instance?.ShowForUnit(unit);
     }
 
     public void Deselect()
     {
-        SelectedTruck?.OnDeselected();
-        SelectedTruck         = null;
+        SelectedUnit?.OnDeselected();
+        SelectedUnit          = null;
         _waitingForMoveTarget = false;
         TruckHUD.Instance?.Hide();
     }
 
     public void BeginMoveTargeting()
     {
-        if (SelectedTruck == null) return;
+        if (SelectedUnit == null) return;
         _waitingForMoveTarget = true;
         TruckHUD.Instance?.SetAwaitingTarget(true);
         UIPanel.Instance?.SetAwaitingTarget(true);
@@ -58,12 +60,12 @@ public class TruckSelectionManager : MonoBehaviour
 
     public void CommandStop()
     {
-        SelectedTruck?.StopTruck();
+        SelectedUnit?.StopUnit();
     }
 
     public void CommandExtinguish()
     {
-        SelectedTruck?.StartExtinguishing();
+        SelectedUnit?.StartExtinguishing();
     }
 
     private void HandleMapClick()
@@ -75,7 +77,7 @@ public class TruckSelectionManager : MonoBehaviour
         Vector3 worldPos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         worldPos.z = 0f;
 
-        SelectedTruck?.MoveTo(worldPos);
+        SelectedUnit?.MoveTo(worldPos);
 
         _waitingForMoveTarget = false;
         TruckHUD.Instance?.SetAwaitingTarget(false);

@@ -43,6 +43,7 @@ public class TruckHUD : MonoBehaviour
     private Coroutine   _fadeCoroutine;
     private bool        _isHovered         = false;
     private bool        _isAwaitingTarget  = false;
+    private ISelectableUnit _currentUnit;
 
     private void Awake()
     {
@@ -69,6 +70,10 @@ public class TruckHUD : MonoBehaviour
     private void Update()
     {
         if (hudPanel == null || !hudPanel.activeSelf) return;
+
+        if (Input.GetKeyDown(KeyCode.R) && _currentUnit is IWaterRechargeable recharge)
+            recharge.RechargeWater();
+
         if (_isAwaitingTarget) return;
 
         if (Input.GetKeyDown(KeyCode.Q)) OnMoveClicked();
@@ -90,13 +95,17 @@ public class TruckHUD : MonoBehaviour
             FadeTo(normalAlpha);
     }
 
-    public void ShowForTruck(FireTruck truck)
+    public void ShowForTruck(FireTruck truck) => ShowForUnit(truck);
+
+    public void ShowForUnit(ISelectableUnit unit)
     {
-        if (truckNameLabel != null)
-            truckNameLabel.text = truck.gameObject.name;
+        _currentUnit = unit;
+
+        if (truckNameLabel != null && unit != null)
+            truckNameLabel.text = unit.Transform.gameObject.name;
 
         ClearAllHighlights();
-        RefreshExtinguishInteractable(truck);
+        RefreshExtinguishInteractable(unit);
         SetAwaitingTarget(false);
         hudPanel?.SetActive(true);
 
@@ -105,6 +114,7 @@ public class TruckHUD : MonoBehaviour
 
     public void Hide()
     {
+        _currentUnit = null;
         ClearAllHighlights();
         SetAwaitingTarget(false);
         hudPanel?.SetActive(false);
@@ -124,7 +134,8 @@ public class TruckHUD : MonoBehaviour
     }
 
 
-    public void OnTruckMoving()
+    public void OnTruckMoving() => OnUnitMoving();
+    public void OnUnitMoving()
     {
         SetAwaitingTarget(false);
         UIPanel.Instance?.SetAwaitingTarget(false);
@@ -133,18 +144,20 @@ public class TruckHUD : MonoBehaviour
         SetButtonColor(extinguishButton, false);
     }
 
-    public void OnTruckArrived(FireTruck truck)
+    public void OnTruckArrived(FireTruck truck) => OnUnitArrived(truck);
+    public void OnUnitArrived(ISelectableUnit unit)
     {
         SetButtonColor(moveButton, false);
-        RefreshExtinguishInteractable(truck);
+        RefreshExtinguishInteractable(unit);
     }
 
-    public void OnTruckStopped(FireTruck truck)
+    public void OnTruckStopped(FireTruck truck) => OnUnitStopped(truck);
+    public void OnUnitStopped(ISelectableUnit unit)
     {
         SetButtonColor(moveButton, false);
         if (_stopFlashCoroutine != null) StopCoroutine(_stopFlashCoroutine);
         _stopFlashCoroutine = StartCoroutine(StopFlashRoutine());
-        RefreshExtinguishInteractable(truck);
+        RefreshExtinguishInteractable(unit);
     }
 
     public void OnExtinguishStarted()
@@ -152,20 +165,30 @@ public class TruckHUD : MonoBehaviour
         SetButtonColor(extinguishButton, true);
     }
 
-    public void OnExtinguishFinished(FireTruck truck)
+    public void OnExtinguishFinished(FireTruck truck) => OnExtinguishFinished((ISelectableUnit)truck);
+    public void OnExtinguishFinished(ISelectableUnit unit)
     {
         SetButtonColor(extinguishButton, false);
-        RefreshExtinguishInteractable(truck);
+        RefreshExtinguishInteractable(unit);
     }
 
-    public void RefreshExtinguishInteractable(FireTruck truck)
+    public void RefreshExtinguishInteractable(ISelectableUnit unit)
     {
         if (extinguishButton == null) return;
+        if (unit == null)
+        {
+            extinguishButton.interactable = false;
+            if (extinguishLabel != null) extinguishLabel.alpha = 0.4f;
+            return;
+        }
 
         bool nearFire = FireManager.Instance != null &&
                         FireManager.Instance.HasNearbyFire(
-                            new Vector2(truck.transform.position.x, truck.transform.position.y),
-                            truck.extinguishRadius);
+                            new Vector2(unit.Transform.position.x, unit.Transform.position.y),
+                            unit.ExtinguishRadius);
+
+        if (unit is IWaterRechargeable waterUnit && !waterUnit.HasWater)
+            nearFire = false;
 
         extinguishButton.interactable = nearFire;
 
