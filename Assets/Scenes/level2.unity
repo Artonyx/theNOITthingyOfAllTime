@@ -35004,7 +35004,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 32, y: 32}
   m_EdgeRadius: 0
-<<<<<<< Updated upstream
 --- !u!114 &2000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35028,8 +35027,6 @@ MonoBehaviour:
   selectionIndicator: {fileID: 0}
   waterSprayVFX: {fileID: 0}
   coneSpread: 0.15
-=======
->>>>>>> Stashed changes
 --- !u!114 &1589553360 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8174130949014384027, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
