@@ -45302,6 +45302,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 141973234745397547, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 286712240675295054, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 741207387624446172, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1025107801345673822, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -45318,13 +45330,41 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 44508355}
+    - target: {fileID: 2297451554593557563, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353771923364422023, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1853107191}
     - target: {fileID: 2453493880802591168, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 44508355}
+    - target: {fileID: 3200381535421643333, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386198922932043635, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_Name
+      value: tutorialText7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386198922932043635, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3435386698769842437, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3886055785399544006, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160026327528238048, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4780102764941066097, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_Pivot.x
@@ -45406,10 +45446,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6391715929448766777, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_text
+      value: '[W] stops the action of [Q] or [E] if they are active. If you would
+        like to freeze time to think through and assign tasks in advance, you can
+        press [space]. Additionally you can zoom in and zoom out using the mouse
+        scroll. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912788630862546879, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7312222691246087393, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_Name
+      value: tutorialText8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8404550845990794450, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8823900590742746334, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 44508355}
+    - target: {fileID: 8918564680256110909, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148033281513962925, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
