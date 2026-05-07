@@ -104,7 +104,7 @@ public class SmokeManager : MonoBehaviour
         vel.space          = ParticleSystemSimulationSpace.World;
         vel.x              = new ParticleSystem.MinMaxCurve(-drift, drift);
         vel.y              = new ParticleSystem.MinMaxCurve(riseSpeed, riseSpeed * 1.5f);
-        vel.z              = new ParticleSystem.MinMaxCurve(0f);
+        vel.z              = new ParticleSystem.MinMaxCurve(0f, 0f);
 
         var sizeOverLife   = ps.sizeOverLifetime;
         sizeOverLife.enabled = true;
