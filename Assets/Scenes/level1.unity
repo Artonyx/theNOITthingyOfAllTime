@@ -45461,6 +45461,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tutorialText8
       objectReference: {fileID: 0}
+    - target: {fileID: 7491593467474082658, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 42347309045760000
+      objectReference: {fileID: 0}
     - target: {fileID: 8404550845990794450, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_IsActive
       value: 0

@@ -252,9 +252,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 19239926911369216
-    m_Localized: '[W] stops the action of [Q] or [E] if they are active. If you would
-      like to freeze time to think through and assign tasks in advance, you can press
-      [space]. Additionally you can zoom in and zoom out using the mouse scroll. '
+    m_Localized: Furthermore for this level, with [R] you can refill the water in
+      the helicopter, because it runs out when it extinguishes.
     m_Metadata:
       m_Items: []
   - m_Id: 19242339126902784
@@ -280,13 +279,18 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 42240962944991232
-    m_Localized: 'When you want to move the screen along the level, you just move
-      the cursor to the border which corresponds to the direction you want to go
-      in. '
+    m_Localized: 'Additionally you can zoom in and zoom out using the mouse scroll.
+      When you want to move the screen along the level, you just move the cursor
+      to the border which corresponds to the direction you want to go in. '
     m_Metadata:
       m_Items: []
   - m_Id: 42335738374504448
     m_Localized: Congratulations! You successfully completed the first level.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42347309045760000
+    m_Localized: '[B] stops the action of [Y] or [E] if they are active. If you want
+      to pause time to think and give orders in advance, press [Space].'
     m_Metadata:
       m_Items: []
   references:
