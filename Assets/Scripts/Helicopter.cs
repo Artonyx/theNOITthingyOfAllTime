@@ -118,10 +118,6 @@ public class Helicopter : MonoBehaviour, ISelectableUnit, IWaterRechargeable
     {
         worldDestination.z = transform.position.z;
 
-        Vector2 dir = (new Vector2(worldDestination.x, worldDestination.y)
-                     - new Vector2(transform.position.x, transform.position.y)).normalized;
-        if (dir != Vector2.zero) _lastMoveDir = dir;
-
         while (Vector3.Distance(transform.position, worldDestination) > waypointThreshold)
         {
             transform.position = Vector3.MoveTowards(
