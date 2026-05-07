@@ -1302,7 +1302,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1217124686}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
+        m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1653397450138927391, guid: bb58720322c333701b6b737e746f0341, type: 3}
+  m_Sprite: {fileID: 2464957627889567213, guid: 3a556880a145dca11b734cbef658f0d3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5423,7 +5423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1217124687
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5654,6 +5654,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1365740685}
+  - {fileID: 1217124687}
   - {fileID: 336379600}
   - {fileID: 585208296}
   - {fileID: 1576076761}
@@ -5661,7 +5662,6 @@ RectTransform:
   - {fileID: 1214238853}
   - {fileID: 1747744135}
   - {fileID: 279733669}
-  - {fileID: 1217124687}
   m_Father: {fileID: 654219180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
