@@ -151,8 +151,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 13920161850359808
-    m_Localized: Congratulations! You passed the tutorial level. For now this is
-      it. Thank you for playing!
+    m_Localized: 'Congratulations! You passed the tutorial level. '
     m_Metadata:
       m_Items: []
   - m_Id: 13921586093391872
@@ -284,6 +283,10 @@ MonoBehaviour:
     m_Localized: 'When you want to move the screen along the level, you just move
       the cursor to the border which corresponds to the direction you want to go
       in. '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42335738374504448
+    m_Localized: Congratulations! You successfully completed the first level.
     m_Metadata:
       m_Items: []
   references:

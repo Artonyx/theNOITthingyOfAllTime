@@ -39546,6 +39546,10 @@ PrefabInstance:
       propertyPath: m_text
       value: What would you like to do with this fire extinguishing helicopter?
       objectReference: {fileID: 0}
+    - target: {fileID: 2914990098537691913, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 42335738374504448
+      objectReference: {fileID: 0}
     - target: {fileID: 3435386698769842437, guid: 631ce1da13414c54ea566f033cd38b1e, type: 3}
       propertyPath: m_Name
       value: Canvas
