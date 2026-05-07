@@ -677,7 +677,6 @@ GameObject:
   m_Component:
   - component: {fileID: 381045696}
   - component: {fileID: 381045695}
-  - component: {fileID: 381045697}
   - component: {fileID: 381045694}
   - component: {fileID: 381045693}
   - component: {fileID: 381045692}
@@ -844,45 +843,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &381045697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 381045689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 911fe39e48b884342b90caf23be38051, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FireManager
-  fireBackground: {fileID: 237791214}
-  fireForeground: {fileID: 461956162}
-  buildingTilemap: {fileID: 1162594733}
-  treesTilemap: {fileID: 1162594733}
-  grassTilemap: {fileID: 1190203744}
-  crosswalkTilemap: {fileID: 0}
-  windowsTilemap: {fileID: 1162594733}
-  groundTilemap: {fileID: 586430909}
-  sidewalkTilemap: {fileID: 0}
-  smallFireTile: {fileID: 11400000, guid: 41d8ff9b453d61898b342d4948103e58, type: 2}
-  mediumFireTile: {fileID: 11400000, guid: f72ccc635ca2ab48e8c69c4253d00c82, type: 2}
-  largeFireTile: {fileID: 11400000, guid: df0e8e0cf18a4d4d1ba001a3d48e556d, type: 2}
-  initialFireCount: 1
-  enableRandomSpawning: 1
-  firstSpawnDelay: 15
-  spawnInterval: 25
-  firesPerSpawn: 1
-  smallToMediumTime: 8
-  mediumToLargeTime: 10
-  spreadIntervalMedium: 12
-  spreadIntervalLarge: 4
-  maxSpreads: 4
-  spreadChanceMedium: 0.3
-  spreadChanceLarge: 0.7
-  onAllFiresExtinguished:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &461956159
 GameObject:
   m_ObjectHideFlags: 0
