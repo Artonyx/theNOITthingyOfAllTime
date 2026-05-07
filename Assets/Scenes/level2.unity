@@ -39742,6 +39742,7 @@ GameObject:
   - component: {fileID: 1580964068}
   - component: {fileID: 1580964070}
   - component: {fileID: 2000000001}
+  - component: {fileID: 2000000004}
   - component: {fileID: 2000000003}
   m_Layer: 0
   m_Name: Helicopter
@@ -39817,7 +39818,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580964067}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0, z: 0.9238796, w: -0.38268325}
   m_LocalPosition: {x: -3.95, y: 3.24, z: -0.602}
   m_LocalScale: {x: 0.02, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39825,7 +39826,7 @@ Transform:
   - {fileID: 1892040556}
   - {fileID: 1031995526}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 225}
 --- !u!61 &1580964070
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -45158,6 +45159,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1a2b3c4d5e60718293a4b5c6d7e8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2000000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580964067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa81da33fce6e53469bf88fd4a28e787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HelicopterOutline
+  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineScale: 1.2
 --- !u!1 &2071671115
 GameObject:
   m_ObjectHideFlags: 0
