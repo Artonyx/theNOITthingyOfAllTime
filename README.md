@@ -9,4 +9,4 @@ Back-end, level design and idea by Mirotoko
 Game engine - [Unity](https://unity.com)</br>
 IDEs - [Visual Studio 2022](https://visualstudio.microsoft.com), [Jetbrains Rider](https://www.jetbrains.com/rider)</br>
 Graphic editors - [ibisPaint X](https://ibispaint.com), [Piskel](https://www.piskelapp.com), [Aseprite](https://www.aseprite.org)</br>
-Help with code - [Anthropic Claude](https://claude.ai)
+Help with code - [Anthropic Claude](https://claude.ai), [Cursor](https://cursor.com)
