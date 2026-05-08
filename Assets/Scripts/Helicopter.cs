@@ -24,7 +24,8 @@ public class Helicopter : MonoBehaviour, ISelectableUnit, IWaterRechargeable
     [Header("Water")]
     public int maxWater = 8;
     [SerializeField] private int _currentWater = 8;
-    public bool HasWater => _currentWater > 0;
+    public bool HasWater     => _currentWater > 0;
+    public int  CurrentWater => _currentWater;
 
     [Header("Input")]
     public KeyCode rechargeKey = KeyCode.R;

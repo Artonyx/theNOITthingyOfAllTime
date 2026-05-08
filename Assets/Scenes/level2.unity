@@ -831,6 +831,7 @@ GameObject:
   - component: {fileID: 381045692}
   - component: {fileID: 381045691}
   - component: {fileID: 381045690}
+  - component: {fileID: 381045697}
   m_Layer: 0
   m_Name: levelSpecificGameManager
   m_TagString: Untagged
@@ -992,6 +993,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &381045697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381045689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdd5feb5f70e26de8167ac153041569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaterIndicator
+  waterSlider: {fileID: 1326565363}
+  helicopter: {fileID: 2000000001}
+  fillImage: {fileID: 1610307302}
+  fullColor: {r: 0.2, g: 0.6, b: 1, a: 1}
+  criticalColor: {r: 1, g: 0.2, b: 0.2, a: 1}
+  criticalThreshold: 0.25
 --- !u!1 &461956159
 GameObject:
   m_ObjectHideFlags: 0
@@ -40191,15 +40210,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580964067}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: 0.9238796, w: -0.38268325}
-  m_LocalPosition: {x: -3.95, y: 3.24, z: -0.602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1892040556}
   - {fileID: 1031995526}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 225}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1580964070
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -40291,8 +40310,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 201.6204, y: -0.34740067}
-  m_SizeDelta: {x: 372.4162, y: -17.3728}
+  m_AnchoredPosition: {x: 15.525696, y: -0.34740067}
+  m_SizeDelta: {x: 0, y: -17.3728}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1610307302
 MonoBehaviour:
@@ -45508,7 +45527,7 @@ Animator:
   m_GameObject: {fileID: 1580964067}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 33333333333333333333333333333333, type: 2}
+  m_Controller: {fileID: 9100000, guid: a85783f68e37d5a9d8cf5a1f8445937d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -45532,6 +45551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1a2b3c4d5e60718293a4b5c6d7e8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 10
 --- !u!114 &2000000004
 MonoBehaviour:
   m_ObjectHideFlags: 0
